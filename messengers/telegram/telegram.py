@@ -25,7 +25,7 @@ client = TelegramClient(username, api_id, api_hash)
 
 @client.on(events.NewMessage())
 async def normal_handler(event):
-
+    """Обрабатывает сообщения"""
     # если чат, то выходим
     if event.chat:
         return
@@ -40,6 +40,7 @@ async def normal_handler(event):
 
 
 def send_data(data):
+    """Отправляет словарь на сервер"""
     print(data)
 
 
