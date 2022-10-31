@@ -38,7 +38,8 @@ def auth():
     return vk_session
 
 
-def send_data(data):
+def send_data_to_server(data):
+    """Отправляет словарь на сервер"""
     print(data)
 
 
@@ -65,10 +66,10 @@ def main():
             if event.from_user:  # Если написали в ЛС
                 user = vk.users.get(user_ids=(str(event.user_id)))[0]
 
-                send_data({'id': user['id'],
-                           'username': (user['first_name'], user['last_name']),
-                           'message': event.message,
-                           'date': event.datetime})
+                send_data_to_server({'id': user['id'],
+                                     'username': (user['first_name'], user['last_name']),
+                                     'message': event.message,
+                                     'date': event.datetime})
 
                 # vk.messages.send(  # Отправляем сообщение
                 #     user_id=event.user_id,
