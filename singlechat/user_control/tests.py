@@ -1,5 +1,6 @@
 from rest_framework.test import APITestCase
 from .views import get_random, get_refresh_token, get_access_token
+from .models import CustomUser
 
 
 class TestGenericFunctions(APITestCase):
@@ -86,15 +87,52 @@ class TestAuth(APITestCase):
         response = self.client.post(self.login_url, data=payload)
         refresh = response.json()["refresh"]
 
-        # print(refresh)
-
         response = self.client.post(self.refresh_url, data={"refresh": refresh})
         result = response.json()
 
         self.assertEqual(response.status_code, 200)
-        # print('12313123213123')
-        # print(result)
 
         # проверяем токен
-        # self.assertTrue(result["access"])
-        # self.assertTrue(result["refresh"])
+        self.assertTrue(result["access"])
+        self.assertTrue(result["refresh"])
+
+
+class TestUserInfo(APITestCase):
+    profile_url = '/user/profile'
+
+    def setUp(self):
+        self.user = CustomUser.objects.create(username='Bronamer', password='qwerty')
+        self.client.force_authenticate(user=self.user)
+
+    def test_post_user_profile(self):
+
+        payload = {
+            "user_id": self.user.id,
+            "first_name": "Roman",
+            "last_name": "Bekker",
+        }
+
+        response = self.client.post(self.profile_url, data=payload)
+        result = response.json()
+
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(result['first_name'], "Roman")
+        self.assertEqual(result['last_name'], "Bekker")
+        self.assertEqual(result['user']['username'], "Bronamer")
+
+    def test_post_user_profile_with_picture(self):
+
+        payload = {
+            "user_id": self.user.id,
+            "first_name": "Roman",
+            "last_name": "Bekker",
+        }
+
+        response = self.client.post(self.profile_url, data=payload)
+        result = response.json()
+
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(result['first_name'], "Roman")
+        self.assertEqual(result['last_name'], "Bekker")
+        self.assertEqual(result['user']['username'], "Bronamer")
+

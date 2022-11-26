@@ -1,16 +1,16 @@
 import jwt
-from .models import Jwt
-from .models import CustomUser
+from .models import Jwt, CustomUser
 from datetime import datetime, timedelta
 from django.conf import settings
 import random
 import string
 from rest_framework.views import APIView
-from .serializers import LoginSerializer, RegisterSerializer, RefreshSerializer
+from .serializers import LoginSerializer, RegisterSerializer, RefreshSerializer, UserProfileSerializer, UserProfile
 from django.contrib.auth import authenticate
 from rest_framework.response import Response
 from .authentication import Authentication
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.viewsets import ModelViewSet
 
 
 def get_random(length):
@@ -53,7 +53,7 @@ class LoginView(APIView):
         refresh = get_refresh_token()
 
         Jwt.objects.create(
-            user_id=user.id, access=access.encode().decode('UTF-8'), refresh=refresh.encode().decode('UTF-8')  # user_id=user.id, access=access.decode(), refresh=refresh.decode()
+            user_id=user.id, access=access, refresh=refresh  # user_id=user.id, access=access.decode(), refresh=refresh.decode()
         )
 
         return Response({"access": access, "refresh": refresh})
@@ -83,14 +83,21 @@ class RefreshView(APIView):
                 refresh=serializer.validated_data["refresh"])
         except Jwt.DoesNotExist:
             return Response({"error": "refresh token not found"}, status="400")
+
         if not Authentication.verify_token(serializer.validated_data["refresh"]):
             return Response({"error": "Token is invalid or has expired"})
 
         access = get_access_token({"user_id": active_jwt.user.id})
         refresh = get_refresh_token()
 
-        active_jwt.access = access.decode()
-        active_jwt.refresh = refresh.decode()
+        active_jwt.access = access
+        active_jwt.refresh = refresh
         active_jwt.save()
 
         return Response({"access": access, "refresh": refresh})
+
+
+class UserProfileView(ModelViewSet):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializer
+    permission_classes = (IsAuthenticated, )
