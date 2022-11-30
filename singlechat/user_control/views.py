@@ -9,7 +9,7 @@ from .serializers import LoginSerializer, RegisterSerializer, RefreshSerializer,
 from django.contrib.auth import authenticate
 from rest_framework.response import Response
 from .authentication import Authentication
-from rest_framework.permissions import IsAuthenticated
+from singlechat.custom_methods import IsAuthenticatedCustom
 from rest_framework.viewsets import ModelViewSet
 import re
 from django.db.models import Q
@@ -79,7 +79,7 @@ class RefreshView(APIView):
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
-
+        print('refreshviwe', serializer)
         try:
             active_jwt = Jwt.objects.get(
                 refresh=serializer.validated_data["refresh"])
@@ -102,7 +102,7 @@ class RefreshView(APIView):
 class UserProfileView(ModelViewSet):
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticatedCustom, )
 
     def get_queryset(self):
         data = self.request.query_params.dict()

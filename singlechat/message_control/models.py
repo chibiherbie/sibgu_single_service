@@ -15,15 +15,21 @@ class Message(models.Model):
 
     message = models.TextField(blank=True, null=True)
     is_read = models.BooleanField(default=False)
-    create_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"message between {self.sender.username} and {self.receiver.username}"
+
+    class Meta:
+        ordering = ("-created_at",)
 
 
 class MessageAttachment(models.Model):
     message = models.ForeignKey(Message, related_name="message_attachments", on_delete=models.CASCADE)
     attachment = models.ForeignKey(GenericFileUpload, related_name="message_uploads", on_delete=models.CASCADE)
     caption = models.CharField(max_length=255, null=True, blank=True)
-    create_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ("created_at",)

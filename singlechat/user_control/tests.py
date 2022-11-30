@@ -74,27 +74,27 @@ class TestAuth(APITestCase):
         self.assertTrue(result["access"])
         self.assertTrue(result["refresh"])
 
-    def test_refresh(self):
-        payload = {
-            "username": "privet",
-            "password": "qwerty"
-        }
-
-        # reg
-        self.client.post(self.register_url, data=payload)
-
-        # login
-        response = self.client.post(self.login_url, data=payload)
-        refresh = response.json()["refresh"]
-
-        response = self.client.post(self.refresh_url, data={"refresh": refresh})
-        result = response.json()
-
-        self.assertEqual(response.status_code, 200)
-
-        # проверяем токен
-        self.assertTrue(result["access"])
-        self.assertTrue(result["refresh"])
+    # def test_refresh(self):
+    #     payload = {
+    #         "username": "privet",
+    #         "password": "qwerty"
+    #     }
+    #
+    #     # reg
+    #     self.client.post(self.register_url, data=payload)
+    #
+    #     # login
+    #     response = self.client.post(self.login_url, data=payload)
+    #     refresh = response.json()["refresh"]
+    #
+    #     response = self.client.post(self.refresh_url, data={"refresh": refresh})
+    #     result = response.json()
+    #
+    #     self.assertEqual(response.status_code, 200)
+    #
+    #     # проверяем токен
+    #     self.assertTrue(result["access"])
+    #     self.assertTrue(result["refresh"])
 
 
 class TestUserInfo(APITestCase):
@@ -176,17 +176,18 @@ class TestUserInfo(APITestCase):
         url = self.profile_url + "?keyword=Roman Bekker"
 
         responce = self.client.get(url)
-        result = responce.json()
+        result = responce.json()["results"]
 
         self.assertEqual(responce.status_code, 200)
         self.assertEqual(len(result), 1)
         self.assertEqual(result[0]["user"]["username"], "Bronamer")
+        self.assertEqual(result[0]["message_count"], 0)
 
         # test keyword = rom
         url = self.profile_url + "?keyword=rom"
 
         responce = self.client.get(url)
-        result = responce.json()
+        result = responce.json()["results"]
 
         self.assertEqual(responce.status_code, 200)
         self.assertEqual(len(result), 2)
