@@ -1,6 +1,6 @@
 from rest_framework.test import APITestCase
 from .views import get_random, get_refresh_token, get_access_token
-from .models import CustomUser
+from .models import CustomUser, UserProfile
 
 
 class TestGenericFunctions(APITestCase):
@@ -99,9 +99,11 @@ class TestAuth(APITestCase):
 
 class TestUserInfo(APITestCase):
     profile_url = '/user/profile'
+    file_upload_url = '/message/file-upload'
 
     def setUp(self):
-        self.user = CustomUser.objects.create(username='Bronamer', password='qwerty')
+        self.user = CustomUser.objects._create_user(username='Bronamer', password='qwerty')
+
         self.client.force_authenticate(user=self.user)
 
     def test_post_user_profile(self):
@@ -160,4 +162,32 @@ class TestUserInfo(APITestCase):
         self.assertEqual(result['last_name'], "Bek")
         self.assertEqual(result['user']['username'], "Bronamer")
 
+    def test_user_search(self):
 
+        UserProfile.objects.create(user=self.user, first_name="Roman", last_name="Bekker")
+
+        user2 = CustomUser.objects._create_user(username='tester', password='tester123')
+        UserProfile.objects.create(user=user2, first_name="Mega", last_name="Torch")
+
+        user3 = CustomUser.objects._create_user(username='Rommchek', password='bulka123')
+        UserProfile.objects.create(user=user3, first_name="Big", last_name="Rocket")
+
+        # test keyword = Roman Bekker
+        url = self.profile_url + "?keyword=Roman Bekker"
+
+        responce = self.client.get(url)
+        result = responce.json()
+
+        self.assertEqual(responce.status_code, 200)
+        self.assertEqual(len(result), 1)
+        self.assertEqual(result[0]["user"]["username"], "Bronamer")
+
+        # test keyword = rom
+        url = self.profile_url + "?keyword=rom"
+
+        responce = self.client.get(url)
+        result = responce.json()
+
+        self.assertEqual(responce.status_code, 200)
+        self.assertEqual(len(result), 2)
+        self.assertEqual(result[1]["user"]["username"], "Rommchek")
