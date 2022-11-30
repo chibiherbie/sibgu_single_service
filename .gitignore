@@ -162,3 +162,4 @@ cython_debug/
 
 config.ini
 test.py
+/chatsocket/node_modules/
