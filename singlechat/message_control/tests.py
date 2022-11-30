@@ -139,7 +139,7 @@ class TestMessage(APITestCase):
         response = self.client.patch(
             self.message_url + "/1", data=payload, **self.bearer)
         result = response.json()
-        print(result)
+
         # assertions
         self.assertEqual(response.status_code, 200)
         self.assertEqual(result["message"], "test message updated")

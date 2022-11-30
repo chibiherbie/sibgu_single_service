@@ -3,6 +3,28 @@ from .serialezers import GenericFileUpload, GenericFileUploadSerializer, Message
 from singlechat.custom_methods import IsAuthenticatedCustom
 from rest_framework.response import Response
 from django.db.models import Q
+from django.conf import settings
+import requests
+import json
+
+
+def handleRequest(serializerData):
+    notification = {
+        "message": serializerData.data.get("message"),
+        "from": serializerData.data.get("sender"),
+        "receiver": serializerData.data.get("receiver").get("id")
+    }
+
+    headers = {
+        'Content-Type': 'application/json',
+    }
+    try:
+        requests.post(settings.SOCKET_SERVER, json.dumps(
+            notification), headers=headers)
+    except Exception as e:
+        pass
+
+    return True
 
 
 class GenericFiledUploadView(ModelViewSet):
@@ -28,7 +50,11 @@ class MessageView(ModelViewSet):
 
     def create(self, request, *args, **kwargs):
 
-        request.data._mutable = True
+        try:
+            request.data._mutable = True
+        except:
+            pass
+
         attachments = request.data.pop("attachments", None)
 
         if str(request.user.id) != str(request.data.get("sender_id", None)):
@@ -44,9 +70,16 @@ class MessageView(ModelViewSet):
             message_data = self.get_queryset().get(id=serializer.data["id"])
             return Response(self.serializer_class(message_data).data, status=201)
 
+        handleRequest(serializer)
+
         return Response(serializer.data, status=201)
 
     def update(self, request, *args, **kwargs):
+
+        try:
+            request.data._mutable = True
+        except:
+            pass
 
         attachments = request.data.pop("attachments", None)
         instance = self.get_object()
@@ -61,8 +94,10 @@ class MessageView(ModelViewSet):
             MessageAttachment.objects.bulk_create(MessageAttachment(
                 **attachment, message_id=instance.id) for attachment in attachments)
             message_data = self.get_object()
-            return Response(self.serializer_class(message_data).data, status=201)
+            return Response(self.serializer_class(message_data).data, status=200)
 
-        return Response(serializer.data, status=201)
+        handleRequest(serializer)
+
+        return Response(serializer.data, status=200)
 
 
