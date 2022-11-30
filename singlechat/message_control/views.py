@@ -10,13 +10,18 @@ class GenericFiledUploadView(ModelViewSet):
 
 
 class MessageView(ModelViewSet):
-    queryset = Message.objects.select_related("sender", "receiver").prefetch_related("message_attachments")
+    queryset = Message.objects.select_related(
+        "sender", "receiver").prefetch_related("message_attachments")
     serializer_class = MessageSerializer
     permission_classes = (IsAuthenticated, )
 
     def create(self, request, *args, **kwargs):
 
+        request.data._mutable = True
         attachments = request.data.pop("attachments", None)
+
+        if str(request.user.id) != str(request.data.get("sender_id", None)):
+            raise Exception("Только отправитель может создать сообщение")
 
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)

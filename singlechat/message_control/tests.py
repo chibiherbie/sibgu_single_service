@@ -34,3 +34,35 @@ def create_image(storage, filename, size=(100, 100), image_mode='RGB', image_for
 #
 #         print(result)
 
+class TestMessage(APITestCase):
+    message_url = "/message/message"
+
+    def setUp(self):
+        from user_control.models import CustomUser, UserProfile
+
+        # sender
+        self.sender = CustomUser.objects._create_user('sender', 'sender123')
+        UserProfile.objects.create(first_name='sender', last_name='sender', user=self.sender)
+
+        # receiver
+        self.receiver = CustomUser.objects._create_user('receiver', 'receiver123')
+        UserProfile.objects.create(first_name='receiver', last_name='receiver', user=self.receiver)
+
+        # auth
+        self.client.force_authenticate(user=self.sender)
+
+    def test_post_message(self):
+        payload = {
+            "sender_id": self.sender.id,
+            "receiver_id": self.receiver.id,
+            "message": "test message",
+        }
+
+        response = self.client.post(self.message_url, data=payload)
+        result = response.json()
+
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(result["message"], "test message")
+        self.assertEqual(result["sender"]["user"]["username"], "sender")
+        self.assertEqual(result["receiver"]["user"]["username"], "receiver")
+
