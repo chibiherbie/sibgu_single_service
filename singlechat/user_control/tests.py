@@ -120,8 +120,24 @@ class TestUserInfo(APITestCase):
         self.assertEqual(result['last_name'], "Bekker")
         self.assertEqual(result['user']['username'], "Bronamer")
 
-    def test_post_user_profile_with_picture(self):
+    # def test_post_user_profile_with_picture(self):
+    #
+    #     payload = {
+    #         "user_id": self.user.id,
+    #         "first_name": "Roman",
+    #         "last_name": "Bekker",
+    #     }
+    #
+    #     response = self.client.post(self.profile_url, data=payload)
+    #     result = response.json()
+    #
+    #     self.assertEqual(response.status_code, 201)
+    #     self.assertEqual(result['first_name'], "Roman")
+    #     self.assertEqual(result['last_name'], "Bekker")
+    #     self.assertEqual(result['user']['username'], "Bronamer")
 
+    def test_update_user_profile(self):
+        # создаём профиль
         payload = {
             "user_id": self.user.id,
             "first_name": "Roman",
@@ -131,8 +147,17 @@ class TestUserInfo(APITestCase):
         response = self.client.post(self.profile_url, data=payload)
         result = response.json()
 
-        self.assertEqual(response.status_code, 201)
-        self.assertEqual(result['first_name'], "Roman")
-        self.assertEqual(result['last_name'], "Bekker")
+        payload = {
+            "first_name": "Rom",
+            "last_name": "Bek",
+        }
+
+        response = self.client.patch(self.profile_url + f'/{result["id"]}', data=payload)
+        result = response.json()
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(result['first_name'], "Rom")
+        self.assertEqual(result['last_name'], "Bek")
         self.assertEqual(result['user']['username'], "Bronamer")
+
 
