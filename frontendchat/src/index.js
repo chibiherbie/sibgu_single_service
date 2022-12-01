@@ -1,14 +1,13 @@
 import React from "react";
 import ReactDom from "react-dom";
 import App from "./app";
+import { StoreProvider } from "./stateManagment/store";
+import SocketService from "./socketService";
 
 ReactDom.render(
-    <div>
-        <h1>Hello world</h1>
-        <h1>Hello react</h1>
+    <StoreProvider>
         <App />
-    </div>,
+        <SocketService />
+    </StoreProvider>,
     document.getElementById("root")
 );
-
-
