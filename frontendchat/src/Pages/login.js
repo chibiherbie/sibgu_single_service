@@ -1,17 +1,32 @@
 import React, {useState, useContext} from "react";
 import eyeopen from "../assets/eyeopen.png"
 import eyeclose from "../assets/eyeclose.png"
+import closeWhite from "../assets/close-white.png"
 import { Link } from "react-router-dom"
+import {axiosHandler, errorHandler} from "../helper";
+import {LOGIN_URL} from "../urls";
+import Loader from "../components/loader";
 
 const Login = (props) => {
 
     const [loginData, setLoginData] = useState({});
     const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
-    
-    const submit = (e) => {
-        e.preventDefault()
-        console.log(loginData)
+    const [error, setError] = useState(null);
+
+    const submit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        setError(null);
+        const result = await axiosHandler({
+            method: "post",
+            url: LOGIN_URL,
+            data: loginData
+        }).catch(e => setError(errorHandler(e)));
+        setLoading(false);
+        // if (result) {
+        //
+        // }
     };
 
     const onChange = (e) => {
@@ -28,11 +43,15 @@ const Login = (props) => {
                 <div className="title">Войти</div>
 
                 <AuthForm
-                    login data={loginData}
+                    login
+                    data={loginData}
                     onSubmit={submit}
                     onChange={onChange}
                     showPassword={showPassword}
-                    setShowPassword={setShowPassword}/>
+                    setShowPassword={setShowPassword}
+                    error={error}
+                    loading={loading}
+                    setError={setError}/>
 
                 <div className="switchOption">
                     Нет аккаунта? <Link to="/register">Зарегистрироваться</Link>
@@ -45,28 +64,37 @@ const Login = (props) => {
 
 export const AuthForm = (props) => {
     return (
-        <form onSubmit={props.onSubmit}>
-            <input value={props.data.username}
-                   name={"username"}
-                   onChange={props.onChange}
-                   className="input-field"
-                   placeholder="Имя пользователя"
-                   required/>
-            <div className="input-container">
-                <input
-                    className="input-field"
-                    placeholder="Пароль"
-                    value={props.data.password}
-                    name={"password"}
-                    onChange={props.onChange}
-                    type={!props.showPassword ? "password" : "text"}
-                    autoComplete="new-password"
-                    required/>
-                <img src={!props.showPassword ? eyeopen : eyeclose} onClick={() => props.setShowPassword(!props.showPassword)}/>
-                {/*<img src={eyeclose} />*/}
-            </div>
-            <button type="submit">Войти</button>
-        </form>
+        <>
+            {props.error && (
+                <div className="errorHandler">
+                    <div dangerouslySetInnerHTML={{ __html: props.error }} />
+                    <img alt="" src={closeWhite} onClick={() => props.setError(null)} />
+                </div>
+            )}
+
+            <form onSubmit={props.onSubmit}>
+                <input value={props.data.username}
+                       name={"username"}
+                       onChange={props.onChange}
+                       className="input-field"
+                       placeholder="Имя пользователя"
+                       required/>
+                <div className="input-container">
+                    <input
+                        className="input-field"
+                        placeholder="Пароль"
+                        value={props.data.password}
+                        name={"password"}
+                        onChange={props.onChange}
+                        type={!props.showPassword ? "password" : "text"}
+                        autoComplete="new-password"
+                        required/>
+                    <img alt="" src={!props.showPassword ? eyeopen : eyeclose} onClick={() => props.setShowPassword(!props.showPassword)}/>
+                    {/*<img src={eyeclose} />*/}
+                </div>
+                <button type="submit" disabled={props.loading}>{props.loading ? <center><Loader/></center> : "Войти"}</button>
+            </form>
+        </>
     );
 };
 

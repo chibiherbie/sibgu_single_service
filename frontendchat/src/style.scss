@@ -78,6 +78,7 @@ button {
 .input-container {
   position: relative;
   margin-top: 20px;
+
   img {
     position: absolute;
     right: 10px;
@@ -126,8 +127,29 @@ button {
   min-height: 100vh;
 }
 
+
+
 @keyframes rotate {
   to {
     transform: rotateZ(360deg);
+  }
+}
+
+.errorHandler {
+  background-color: rgba(red, 0.40);
+  color: white;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  font-size: 15px;
+
+  position: relative;
+
+  img {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 10px;
+    cursor: pointer;
   }
 }
