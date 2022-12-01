@@ -1,21 +1,26 @@
 import React from "react";
-
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Login from "./Pages/login";
 import Register from "./Pages/register";
 import Home from "./Pages/home";
+import AuthController from "./Pages/authController";
 
 
 const Router = () => {
     return (
         <BrowserRouter>
-            <Routes>
-                <Route path={"/login"} element={<Login/>} exact/>
-                <Route path={"/register"} element={<Register/>} exact/>
-                <Route path={"/"} element={<Home/>} exact/>
-            </Routes>
+            <Switch>
+                <Route path="/login" component={Login} />
+                <Route path="/register" component={Register} exact/>
+                <Route path="/" component={(props) => (
+                    <AuthController {...props}>
+                        <Route {...props} path="/" component={Home} exact/>
+                    </AuthController>
+                )} />
+
+            </Switch>
         </BrowserRouter>
     );
-}
+};
 
 export default Router;

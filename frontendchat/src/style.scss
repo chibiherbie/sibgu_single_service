@@ -44,14 +44,17 @@ button {
   width: 100%;
   min-height: 100vh;
   padding: 50px 20px;
-  background-color: $primaryColor;
+  background: linear-gradient(151.32deg, #FFD585 -6.44%, rgba(226, 50, 255, 0) 108.03%), $secondaryColor;
   box-sizing: border-box;
 }
 
 .inner {
   max-width: 400px;
-  margin: 0 auto;
-  margin-top: 10%;
+  margin: 5% auto 0;
+  padding: 7%;
+  border: 2px;
+  border-radius: 25px;
+  background-color: $primaryColor;
 }
 
 .title {
@@ -63,22 +66,23 @@ button {
 
 .input-field {
   width: 100%;
-  margin-top: 20px;
-  padding: 10px 0;
+  padding: 10px;
   background-color: transparent;
   border: none;
   border-bottom: 1px solid rgba(white, 0.1);;
   outline: none;
   color: white;
+  box-sizing: border-box;
 }
 
 .input-container {
   position: relative;
-
+  margin-top: 20px;
   img {
     position: absolute;
-    right: 0;
-    top: 20%;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
   }
 }
 
@@ -95,5 +99,35 @@ button {
   b{
     font-weight: 500;
     color: $secondaryColor;
+  }
+}
+
+.authContainer {
+  background-color: $primaryColor;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.loader {
+  width: 30px;
+  height: 30px;
+  border: 2px solid transparent;
+  border-top-color: white;
+  border-radius: 30px;
+  animation: rotate 500ms linear infinite;
+}
+
+.centerLoader {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+@keyframes rotate {
+  to {
+    transform: rotateZ(360deg);
   }
 }
