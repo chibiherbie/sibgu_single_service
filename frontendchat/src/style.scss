@@ -1,9 +1,99 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,200;0,400;0,700;1,400&display=swap');
 
 $primaryFont: 'Montserrat', sans-serif;
+$primaryColor: #1D1D1D;
+$secondaryColor: #7D486A;
 
 html, body {
   margin: 0;
   padding: 0;
   font-family: $primaryFont;
+}
+
+.flex {
+  display: flex;
+}
+
+a {
+  font-size: 14px;
+  color: $secondaryColor
+}
+
+.logo {
+  font-size: 36px;
+  color: $secondaryColor;
+  font-weight: bold;
+  text-align: center;
+  margin: 50px 0;
+}
+
+button {
+  width: 100%;
+  height: 50px;
+  border-radius: 6px;
+  background-color: $secondaryColor;
+  color: white;
+  outline: none;
+  border: none;
+  font-weight: 500;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.loginContainer {
+  width: 100%;
+  min-height: 100vh;
+  padding: 50px 20px;
+  background-color: $primaryColor;
+  box-sizing: border-box;
+}
+
+.inner {
+  max-width: 400px;
+  margin: 0 auto;
+  margin-top: 10%;
+}
+
+.title {
+  font-size: 26px;
+  text-align: center;
+  color: rgba(white, 0.65);
+  margin-bottom: 50px;
+}
+
+.input-field {
+  width: 100%;
+  margin-top: 20px;
+  padding: 10px 0;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(white, 0.1);;
+  outline: none;
+  color: white;
+}
+
+.input-container {
+  position: relative;
+
+  img {
+    position: absolute;
+    right: 0;
+    top: 20%;
+  }
+}
+
+button {
+  margin-top: 60px;
+  margin-bottom: 20px;
+}
+
+.switchOption {
+  margin-top: 50px;
+  color: rgba(white, 0.33);
+  text-align: center;
+
+  b{
+    font-weight: 500;
+    color: $secondaryColor;
+  }
 }
