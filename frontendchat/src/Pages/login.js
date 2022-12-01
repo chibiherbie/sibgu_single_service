@@ -4,8 +4,21 @@ import eyeclose from "../assets/eyeclose.png"
 import closeWhite from "../assets/close-white.png"
 import { Link } from "react-router-dom"
 import {axiosHandler, errorHandler} from "../helper";
-import {LOGIN_URL} from "../urls";
+import { LOGIN_URL } from "../urls";
 import Loader from "../components/loader";
+import { tokenName } from "./authController";
+
+export const loginRequest = async (data, setError, props) => {
+    const result = await axiosHandler({
+            method: "post",
+            url: LOGIN_URL,
+            data: data,
+        }).catch(e => setError(errorHandler(e)));
+    if (result) {
+        localStorage.setItem(tokenName, JSON.stringify(result.data));
+        props.history.push("/");
+    }
+};
 
 const Login = (props) => {
 
@@ -18,15 +31,8 @@ const Login = (props) => {
         e.preventDefault();
         setLoading(true);
         setError(null);
-        const result = await axiosHandler({
-            method: "post",
-            url: LOGIN_URL,
-            data: loginData
-        }).catch(e => setError(errorHandler(e)));
+        await loginRequest(loginData, setError, props);
         setLoading(false);
-        // if (result) {
-        //
-        // }
     };
 
     const onChange = (e) => {
@@ -92,7 +98,10 @@ export const AuthForm = (props) => {
                     <img alt="" src={!props.showPassword ? eyeopen : eyeclose} onClick={() => props.setShowPassword(!props.showPassword)}/>
                     {/*<img src={eyeclose} />*/}
                 </div>
-                <button type="submit" disabled={props.loading}>{props.loading ? <center><Loader/></center> : "Войти"}</button>
+                <button type="submit" disabled={props.loading}>
+                    {props.loading ? (<center><Loader/></center>) :
+                        (props.login ? "Войти" : "Зарегистрироваться")}
+                </button>
             </form>
         </>
     );

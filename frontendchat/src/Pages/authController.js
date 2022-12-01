@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import Loader from "../components/loader";
-const tokenName = "tokenName";
+export const tokenName = "tokenName";
 
 const AuthController = (props) => {
     const [checking, setChecking] = useState(true);
