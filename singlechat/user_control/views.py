@@ -35,6 +35,19 @@ def get_refresh_token():
     )
 
 
+def decodeJWT(bearer):
+    if not bearer:
+        return None
+
+    token = bearer[7:]
+    decoded = jwt.decode(token, key=settings.SECRET_KEY)
+    if decoded:
+        try:
+            return CustomUser.objects.get(id=decoded["user_id"])
+        except Exception:
+            return None
+
+
 class LoginView(APIView):
     serializer_class = LoginSerializer
 
@@ -55,7 +68,7 @@ class LoginView(APIView):
         refresh = get_refresh_token()
 
         Jwt.objects.create(
-            user_id=user.id, access=access, refresh=refresh  # user_id=user.id, access=access.decode(), refresh=refresh.decode()
+            user_id=user.id, access=access.decode(), refresh=refresh.decode()  # user_id=user.id, access=access.decode(), refresh=refresh.decode()
         )
 
         return Response({"access": access, "refresh": refresh})
@@ -79,10 +92,15 @@ class RefreshView(APIView):
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
-        print('refreshviwe', serializer)
+
         try:
             active_jwt = Jwt.objects.get(
                 refresh=serializer.validated_data["refresh"])
+        except Exception as e:
+            print('ERROR')
+            print(e)
+            return Response({"error": "refresh token not found"}, status="400")
+
         except Jwt.DoesNotExist:
             return Response({"error": "refresh token not found"}, status="400")
 
@@ -92,8 +110,8 @@ class RefreshView(APIView):
         access = get_access_token({"user_id": active_jwt.user.id})
         refresh = get_refresh_token()
 
-        active_jwt.access = access
-        active_jwt.refresh = refresh
+        active_jwt.access = access.decode()
+        active_jwt.refresh = refresh.decode()
         active_jwt.save()
 
         return Response({"access": access, "refresh": refresh})
@@ -139,3 +157,15 @@ class UserProfileView(ModelViewSet):
     def normalize_query(query_string, findterms=re.compile(r'"([^"]+)"|(\S+)').findall, normspace=re.compile(r'\s{2,}').sub):
         return [normspace(' ', (t[0] or t[1]).strip()) for t in findterms(query_string)]
 
+
+class MeView(APIView):
+    permission_classes = (IsAuthenticatedCustom, )
+    serializer_class = UserProfileSerializer
+
+    def get(self, request):
+        data = {}
+        try:
+            data = self.serializer_class(request.user.user_profile).data
+        except Exception:
+            pass
+        return Response(data, status=200)

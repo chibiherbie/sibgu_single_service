@@ -46,7 +46,7 @@ const Login = (props) => {
         <div className="loginContainer">
             <div className="inner">
                 <div className="logo">SIBGU</div>
-                <div className="title">Войти</div>
+                <div className="title">Авторизация</div>
 
                 <AuthForm
                     login
