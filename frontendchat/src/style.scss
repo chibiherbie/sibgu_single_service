@@ -1,14 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,200;0,400;0,700;1,400&display=swap');
 
+
+// MOVE TO ASSETS
 $primaryFont: 'Montserrat', sans-serif;
 $primaryColor: #1B1B1B;
 $secondaryColor: #7D486A;
 $thirdColor: #282828;
 
-html, body {
+html, body, #root {
   margin: 0;
   padding: 0;
   font-family: $primaryFont;
+  height: 100%;
+  width: 100%;
 }
 
 .flex {
@@ -155,30 +159,15 @@ button {
   }
 }
 
-.container {
-  width: 100%;
-  min-height: 100vh;
-  height: 100%;
-  background-color: $primaryColor;
-  color: white;
-}
-
 .wrapper {
   margin: 0 auto;
   width: 1920px;
   flex-direction: row;
 }
 
-.left-side {
-  width: 18%;
-  background-color: $thirdColor;
-}
-
 .search-bar {
   height: 65px;
-  border: 2px solid black;
-  border-top: none;
-  border-left: none;
+  //border-bottom: 2px solid black;
   justify-content: center;
   align-items: center;
 }
@@ -203,28 +192,98 @@ button {
 
 }
 
-.users-list {
-  margin-top: 30px;
-  height: 100%;
-  align-items: center;
-  flex-direction: column;
-}
+
 
 .user {
-  width: 90%;
-  height: 62px;
+  width: 100%;
+  height: 61px;
   margin-bottom: 5px;
   align-items: center;
-}
+  .imag-user{
+    margin-left: 10px;
+    width: 54px;
+    height: 54px;
+    overflow: hidden;
+    border-radius: 27px;
+    img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
+  }
 
+  .info{
+    .firststr{
+      margin-left: 35%;
+      margin-bottom: 15%;
+      margin-top: 15%;
+      font-size: 14px;
+    }
+    .secondstr{
+      margin-left: 35%;
+      margin-bottom: 5%;
+      margin-top: 15%;
+      font-size: 14px;
+      color: rgba(#ABABAB, 0.65);
+    }
+  }
+  .social-network{ 
+    margin-left: 30%;
+    p{
+      font-size: 12px;
+     }
+ }
+  .unread-user{
+    margin-left: 10%;
+    img{
+      width:10px;
+    }
+  }
+}
 .user:hover {
   background-color: #BE8580;
   border-radius: 10px;
 }
 
-.right-side {
-  width: 100%;
-  height: 65px;
-  background-color: $thirdColor;
+
+.user-bar {
+  display: flex;
+  height: 60px;
+  background-color: #282828;
+  align-items: center;
+  flex-direction: row;
+  padding-left: 30px;
+
+  .chat-photo{
+    width: 44px;
+    height: 44px;
+    overflow: hidden;
+    border-radius: 22px;
+
+    .img{
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
+  }
+  .info-chat{
+    .firststr{
+      margin-left: 50%;
+      margin-bottom: 15%;
+      margin-top: 15%;
+      font-size: 12px;
+    }
+    .secondstr{
+      margin-left: 50%;
+      margin-bottom: 5%;
+      margin-top: 15%;
+      font-size: 12px;
+      color: rgba(#ABABAB, 0.65);
+    }
+  }
+}
+
+.interface{
+  background-color: #FFD585;
 }
 

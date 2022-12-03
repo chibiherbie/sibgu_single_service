@@ -1,0 +1,39 @@
+.container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    // background-color: $primaryColor;
+    color: white;
+  }
+
+  .left-side {
+    display: flex;
+    flex-direction: column;
+    width: 18%;
+    height: 100%;
+    background-color: #282828;
+    // background-color: $thirdColor;
+    overflow: hidden;
+    margin: 0;
+  }
+
+  .users-list {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow-y: scroll;
+  }
+
+  .users-list::-webkit-scrollbar {
+    display: none;
+}
+
+.right-side {
+  display: flex;
+  flex-direction: column;
+  width: 82%;
+  height: 100%;
+  background-color: #BE8580;
+}
