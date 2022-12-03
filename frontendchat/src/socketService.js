@@ -10,10 +10,10 @@ const SocketService = () => {
 
     const setupSocket = () => {
         socket = openSocket(SOCKET_URL)
-        socket.on("command", (data) => {
-            if (userDetail !== data.receiver) return;
-            dispatch({type: activeChatAction, payload: data});
-        });
+        // socket.on("command", (data) => {
+        //     if (userDetail !== data.receiver) return;
+        //     dispatch({type: , payload: data});
+        // });
     };
 
     useEffect(setupSocket, [userDetail]);

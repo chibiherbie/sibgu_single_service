@@ -13,9 +13,9 @@ const Router = () => {
                 <Route path="/login" component={Login} />
                 <Route path="/register" component={Register} exact/>
                 <Route path="/" component={(props) => (
-                    <AuthController {...props}>
+                    // <AuthController {...props}>
                         <Route {...props} path="/" component={Home} exact/>
-                    </AuthController>
+                    // </AuthController>
                 )} />
 
             </Switch>

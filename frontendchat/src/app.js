@@ -44,7 +44,7 @@ const MessageInterface = (props) => {
     const { state: { userDetail, activeChat }, dispatch, } = useContext(store);
 
     useEffect(() => {
-        if (name != userDetail) {
+        if (name !== userDetail) {
             setName(userDetail);
         }
         if (activeChat) {
