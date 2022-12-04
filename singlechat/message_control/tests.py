@@ -72,7 +72,7 @@ class TestMessage(APITestCase):
             "message": "test message",
         }
 
-        response = self.client.post(self.message_url, data=payload)
+        response = self.client.post(self.message_url, data=payload, **self.bearer)
         result = response.json()
 
         self.assertEqual(response.status_code, 201)
