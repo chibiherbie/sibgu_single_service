@@ -5,7 +5,7 @@ export const updateChatState = {
 };
 
 export const userDetailState = {
-    userDetail: "",
+    userDetail: null,
 };
 
 export const activeChatState = {

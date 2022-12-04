@@ -12,12 +12,12 @@ const Router = () => {
             <Switch>
                 <Route path="/login" component={Login} />
                 <Route path="/register" component={Register} exact/>
-                {/*{ <Route path="/" component={(props) => (*/}
-                {/*    <AuthController {...props}>*/}
-                {/*        <Route {...props} path="/" component={Home} exact/>*/}
-                {/*    </AuthController>*/}
-                {/*)} /> }*/}
-                <Route path='/' component={Home} />
+                { <Route path="/" component={(props) => (
+                    <AuthController {...props}>
+                        <Route {...props} path="/" component={Home} exact/>
+                    </AuthController>
+                )} /> }
+                {/*<Route path='/' component={Home} />*/}
 
             </Switch>
         </BrowserRouter>

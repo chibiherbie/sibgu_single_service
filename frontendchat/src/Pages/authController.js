@@ -1,28 +1,40 @@
 import React, { useEffect, useState, useContext } from "react";
 import Loader from "../components/loader";
 import {axiosHandler} from "../helper";
-import {PROFILE_URL, REFRESH_URL} from "../urls";
+import {ME_URL, REFRESH_URL} from "../urls";
+import {store} from "../stateManagment/store";
+import { userDetailAction } from "../stateManagment/actions";
 
 export const tokenName = "tokenName";
+
+export const logout = (props) => {
+    localStorage.removeItem(tokenName);
+    props.history.push("/login");
+};
 
 const AuthController = (props) => {
     const [checking, setChecking] = useState(true);
 
+    const {dispatch} = useContext(store)
+
     const checkAuthState = async () => {
         let token = localStorage.getItem(tokenName);
         if (!token) {
-            props.history.push("/login");
+            logout(props);
             return;
         }
 
         token = JSON.parse(token);
         const userProfile = await axiosHandler({
             method: "get",
-            url: PROFILE_URL,
+            url: ME_URL,
             token: token.access,
         }).catch((e) => null);
         if (userProfile) {
             setChecking(false);
+            dispatch({
+                type: userDetailAction, payload: userProfile.data
+            })
         }
         else {
             const getNewAccess = await axiosHandler({
@@ -37,7 +49,7 @@ const AuthController = (props) => {
                 checkAuthState();
             }
             else {
-                props.history.push("/login");
+                logout(props);
             }
         }
     };
@@ -48,9 +60,12 @@ const AuthController = (props) => {
 
     return (
         <div className="authContainer">
-            {checking ? <div className="centerLoader">
-             <Loader />
-            </div>: props.children}
+            {checking ?
+            (<div className="centerLoader">
+                <Loader />
+            </div>
+            ) : (
+            props.children)}
         </div>
     );
 };

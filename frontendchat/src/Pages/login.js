@@ -37,9 +37,9 @@ const Login = (props) => {
 
     const onChange = (e) => {
         setLoginData({
-                ...loginData,
-                [e.target.name]: e.target.value,
-            });
+            ...loginData,
+            [e.target.name]: e.target.value,
+        });
     };
     
     return (

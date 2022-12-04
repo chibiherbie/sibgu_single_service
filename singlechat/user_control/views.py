@@ -167,5 +167,9 @@ class MeView(APIView):
         try:
             data = self.serializer_class(request.user.user_profile).data
         except Exception:
-            pass
+            data = {
+                "user": {
+                    "id": request.user.id
+                }
+            }
         return Response(data, status=200)
