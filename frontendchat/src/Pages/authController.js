@@ -1,23 +1,25 @@
 import React, { useEffect, useState, useContext } from "react";
 import Loader from "../components/loader";
-import {axiosHandler} from "../helper";
-import {ME_URL, REFRESH_URL} from "../urls";
+import {axiosHandler, getToken} from "../helper";
+import {LOGOUT_URL, ME_URL, REFRESH_URL} from "../urls";
 import {store} from "../stateManagment/store";
 import { userDetailAction } from "../stateManagment/actions";
 
 export const tokenName = "tokenName";
 
 export const logout = (props) => {
+    if (localStorage.getItem(tokenName)){
+        axiosHandler({
+        method: "get",
+        url: LOGOUT_URL,
+        token: getToken(),
+        });
+    }
     localStorage.removeItem(tokenName);
     props.history.push("/login");
 };
 
-const AuthController = (props) => {
-    const [checking, setChecking] = useState(true);
-
-    const {dispatch} = useContext(store)
-
-    const checkAuthState = async () => {
+export const checkAuthState = async (setChecking, dispatch, props) => {
         let token = localStorage.getItem(tokenName);
         if (!token) {
             logout(props);
@@ -34,7 +36,7 @@ const AuthController = (props) => {
             setChecking(false);
             dispatch({
                 type: userDetailAction, payload: userProfile.data
-            })
+            });
         }
         else {
             const getNewAccess = await axiosHandler({
@@ -46,7 +48,7 @@ const AuthController = (props) => {
             }).catch((e) => null);
             if (getNewAccess) {
                 localStorage.setItem(tokenName, JSON.stringify(getNewAccess.data));
-                checkAuthState();
+                checkAuthState(setChecking, dispatch, props);
             }
             else {
                 logout(props);
@@ -54,8 +56,13 @@ const AuthController = (props) => {
         }
     };
 
+const AuthController = (props) => {
+    const [checking, setChecking] = useState(true);
+
+    const {dispatch} = useContext(store)
+
     useEffect(() => {
-        checkAuthState();
+        checkAuthState(setChecking, dispatch, props);
     }, []);
 
     return (

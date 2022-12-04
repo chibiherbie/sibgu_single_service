@@ -8,6 +8,7 @@ import { ProfileModal } from "./homeComponents";
 import './Home.scss';
 import {store} from "../../stateManagment/store";
 import Loader from "../../components/loader";
+import { logout } from "../authController"
 
 const Home = (props) => {
     const [showProfile, setShowProfile] = useState(false);
@@ -46,6 +47,7 @@ const Home = (props) => {
             <div className="container">
                     <div className="left-side">
                         <div className="flex search-bar">
+                            <div onClick={() => logout(props)}>logout</div>
                             <div className="flex search-bar_button">
                                 <img src={search}></img>
                                 <p>Поиск</p>
@@ -88,6 +90,7 @@ const Home = (props) => {
                         <div className="interface">
 
                         </div>
+
                     </div>
             </div>
         </>

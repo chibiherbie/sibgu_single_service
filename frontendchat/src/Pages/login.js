@@ -1,4 +1,4 @@
-import React, {useState, useContext} from "react";
+import React, {useState, useEffect } from "react";
 import eyeopen from "../assets/eyeopen.png"
 import eyeclose from "../assets/eyeclose.png"
 import closeWhite from "../assets/close-white.png"
@@ -6,7 +6,7 @@ import { Link } from "react-router-dom"
 import {axiosHandler, errorHandler} from "../helper";
 import { LOGIN_URL } from "../urls";
 import Loader from "../components/loader";
-import { tokenName } from "./authController";
+import {checkAuthState, tokenName} from "./authController";
 
 export const loginRequest = async (data, setError, props) => {
     const result = await axiosHandler({
@@ -26,6 +26,18 @@ const Login = (props) => {
     const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState(null);
+    const [checking, setChecking] = useState(localStorage.getItem(tokenName));
+
+
+    useEffect(() => {
+        if (checking) {
+            checkAuthState(
+            () => null,
+            () => props.history.push("/"),
+            props
+            );
+        }
+    });
 
     const submit = async (e) => {
         e.preventDefault();
@@ -44,26 +56,32 @@ const Login = (props) => {
     
     return (
         <div className="loginContainer">
-            <div className="inner">
-                <div className="logo">SIBGU</div>
-                <div className="title">Авторизация</div>
-
-                <AuthForm
-                    login
-                    data={loginData}
-                    onSubmit={submit}
-                    onChange={onChange}
-                    showPassword={showPassword}
-                    setShowPassword={setShowPassword}
-                    error={error}
-                    loading={loading}
-                    setError={setError}/>
-
-                <div className="switchOption">
-                    Нет аккаунта? <Link to="/register">Зарегистрироваться</Link>
+            {
+            checking ? (
+                <div className="centerLoader">
+                    <Loader/>
                 </div>
+            ) : (
+                <div className="inner">
+                    <div className="logo">SIBGU</div>
+                    <div className="title">Авторизация</div>
 
-            </div>
+                    <AuthForm
+                        login
+                        data={loginData}
+                        onSubmit={submit}
+                        onChange={onChange}
+                        showPassword={showPassword}
+                        setShowPassword={setShowPassword}
+                        error={error}
+                        loading={loading}
+                        setError={setError}/>
+
+                    <div className="switchOption">
+                        Нет аккаунта? <Link to="/register">Зарегистрироваться</Link>
+                    </div>
+                </div>)
+            }
         </div>
     );
 };
