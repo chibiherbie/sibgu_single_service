@@ -16,7 +16,7 @@ export const logout = (props) => {
         });
     }
     localStorage.removeItem(tokenName);
-    props.history.push("/login");
+    window.location.href = "/login"
 };
 
 export const checkAuthState = async (setChecking, dispatch, props) => {

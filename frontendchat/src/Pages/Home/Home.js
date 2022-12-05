@@ -1,18 +1,19 @@
 import React, {useState, useContext, useEffect} from "react";
 import search from "../../assets/search.svg"
-import ellipse from "../../assets/ellipse.svg"
-import ellipse1 from "../../assets/ellipse1.svg"
 import ellipse2 from "../../assets/ellipse2.svg"
+import iconMenu from "../../assets/iconMenu.svg"
 import { ProfileModal } from "./homeComponents";
 
 import './Home.scss';
 import {store} from "../../stateManagment/store";
 import Loader from "../../components/loader";
 import { logout } from "../authController"
+import UsersList from "./userList";
 
 const Home = (props) => {
     const [showProfile, setShowProfile] = useState(false);
     const [profileClosable, setProfileClosable] = useState(true);
+    const [dropdown, setDropdown] = useState(false);
     const [userdetail, setUserDetail] = useState(null);
 
     const {state: {userDetail}} = useContext(store);
@@ -47,31 +48,22 @@ const Home = (props) => {
             <div className="container">
                     <div className="left-side">
                         <div className="flex search-bar">
-                            <div onClick={() => logout(props)}>logout</div>
+                            <div className="dropdown">
+                                <button onClick={() => setDropdown(!dropdown)}
+                                        className="dropdown_btn"><img src={iconMenu}/></button>
+                                <div id="myDropdown" className={`dropdown-content ${dropdown ? "show" : ""}`}>
+                                    <p>Аккаунт</p>
+                                    <p className="logout" onClick={() => logout(props)}>Выйти</p>
+                                </div>
+                            </div>
+                            {/*<div onClick={() => logout(props)}></div>*/}
                             <div className="flex search-bar_button">
                                 <img src={search}></img>
-                                <p>Поиск</p>
+                                <input placeholder="Поиск" type="text"></input>
                             </div>
                         </div>
 
-                        <div className="users-list">
-                            <User/>
-                            <User/>
-                            <User/>
-                            <User/>
-                            <User/>
-                            <User/>
-                            <User/>
-                            <User/>
-                            <User/>
-                            <User/>
-                            <User/>
-                            <User/>
-                            <User/>
-                            <User/>
-                            <User/>
-                            <User/>
-                        </div>
+                    <UsersList/>
 
                     </div>
 
@@ -98,29 +90,6 @@ const Home = (props) => {
 };
 
 export default Home;
-
-
-export const User = (props) => {
-
-    return (
-        <div className="flex user">
-            <div className="imag-user">
-                <img src={ellipse2}></img>
-            </div>
-            <div className="info">
-                <p class="firststr">name</p>
-                <p class="secondstr">message</p>
-            </div>
-            <div className="social-network">
-                <p>TG</p>
-            </div>
-            <div className="unread-user">
-                <img src={ellipse1}></img>
-            </div>
-        </div>
-    );
-}
-
 
 export const Message = (props) => {
 

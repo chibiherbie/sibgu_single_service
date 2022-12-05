@@ -1,0 +1,187 @@
+@import "../../assets/constStyle";
+
+.modalContain {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  background-color: rgba(black, 0.19);
+  transition: 0.3s ease;
+  opacity: 0;
+  visibility: hidden;
+
+  .content-inner {
+    background-color: $primaryColor;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    max-width: 700px;
+    width: 100%;
+
+    .header {
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: rgba(white, 0.66);
+      font-size: 15px;
+      border-bottom: 1px solid rgba(white, 0.05);
+
+      img {
+        width: 15px;
+        cursor: pointer;
+      }
+    }
+
+    .content {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+
+      .inner {
+        display: flex;
+        max-width: 80%;
+        margin: 30px auto;
+        width: 100%;
+
+        .leftHook {
+          flex: 1;
+          margin-right: 50px;
+          display: flex;
+          align-items: center;
+          flex-direction: column;
+
+          .imageCon {
+            width: 100px;
+            height: 100px;
+            border-radius: 100px;
+            margin-bottom: 10px;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-color: darken($primaryColor, 5%);
+          }
+
+          .point {
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            color: rgba(white, 0.5);
+            cursor: pointer;
+
+            img {
+              margin-left: 5px;
+            }
+          }
+        }
+
+        .dataInput {
+          flex: 3;
+          label,
+          span {
+            display: block;
+          }
+
+          label {
+            margin-bottom: 20px;
+            span {
+              font-size: 13px;
+              color: rgba(white, 0.5);
+            }
+
+            input,
+            textarea {
+              width: 100%;
+              padding: 0 10px;
+              box-sizing: border-box;
+              height: 35px;
+              border-radius: 4px;
+              outline: none;
+              background-color: $thirdColor;
+              border: none;
+              color: white;
+            }
+
+            textarea {
+              height: 100px;
+              padding: 10px;
+            }
+          }
+        }
+      }
+
+      button {
+        width: 50%;
+        height: 40px;
+        margin: 0 auto;
+        margin-bottom: 50px;
+      }
+
+      @media screen and (max-width: 500px) {
+        padding: 10px;
+
+        .inner{
+          flex-direction: column;
+
+          .leftHook{
+            margin-right: 0;
+            margin-bottom: 30px;
+          }
+        }
+      }
+    }
+  }
+
+  &.open {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.dropdown_btn {
+  background-color: $thirdColor;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  margin: 0;
+}
+
+.dropdown_btn:hover {
+  background-color: rgba(white, 0.1);
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: $thirdColor;
+  min-width: 140px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  border-radius: 10px;
+
+  p {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+
+  p:last-child {
+    color: rgba(red, 0.7);
+  }
+
+  p:hover {background-color: rgba(white, 0.1)}
+
+}
+
+.show {display:block;}

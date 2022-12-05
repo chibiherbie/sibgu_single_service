@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Loader from "../../components/loader";
 import {axiosHandler, errorHandler, getToken} from "../../helper";
 import {PROFILE_URL} from "../../urls";
+import './homeComponents.scss';
 
 export const ProfileModal = (props) => {
 
