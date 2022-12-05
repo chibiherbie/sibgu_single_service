@@ -37,7 +37,7 @@ export default SimpleMessage
 
 const MessageInterface = (props) => {
     const [name, setName] = useState("");
-        const [receiver, setReceiver] = useState("");
+    const [receiver, setReceiver] = useState("");
     const [message, setMessage] = useState("");
     const [messages, setMessages] = useState([]);
 

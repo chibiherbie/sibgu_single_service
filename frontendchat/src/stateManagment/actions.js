@@ -1,3 +1,4 @@
-const updateChatAction = "updateChatAction";
-const userDetailAction = "userDetailAction";
-const activeChatAction = "activeChatAction";
+export const updateChatAction = "updateChatAction";
+export const userDetailAction = "userDetailAction";
+export const activeChatAction = "activeChatAction";
+export const activeChatUserAction = "activeChatUserAction";

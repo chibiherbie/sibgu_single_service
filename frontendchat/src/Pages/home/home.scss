@@ -1,0 +1,144 @@
+@import "../../assets/constStyle";
+.wrapper {
+  margin: 0 auto;
+  width: 1920px;
+  flex-direction: row;
+}
+
+.search-bar {
+  height: 65px;
+  //border-bottom: 2px solid black;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-bar_button {
+  width: 220px;
+  height: 34px;
+  background-color: $primaryColor;
+  border-radius: 40px;
+  cursor: pointer;
+
+  p {
+    margin: auto 0 auto 5%;
+    font-size: 14px;
+    // margin-left: 5%;
+  }
+
+  img {
+    margin-left: 10%;
+    width: 18px;
+  }
+
+  input {
+    margin: auto 0 auto 5%;
+    font-size: 14px;
+    background: none;
+    border: none;
+    color: white;
+  }
+
+  input:active, :hover, :focus  {
+    background: none;
+    border: none;
+     outline: 0;
+    outline-offset: 0;
+  }
+
+}
+
+.user {
+  width: 90%;
+  height: 61px;
+  margin-bottom: 5px;
+  align-items: center;
+
+  .imag-user {
+    margin-left: 10px;
+    width: 54px;
+    height: 54px;
+    overflow: hidden;
+    border-radius: 27px;
+
+    img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .info{
+
+    .firststr{
+      margin-left: 35%;
+      margin-bottom: 15%;
+      margin-top: 15%;
+      font-size: 14px;
+    }
+    .secondstr{
+      margin-left: 35%;
+      margin-bottom: 5%;
+      margin-top: 15%;
+      font-size: 14px;
+      color: rgba(#ABABAB, 0.65);
+    }
+  }
+
+  .social-network{
+    margin-left: 20%;
+    p{
+      font-size: 12px;
+     }
+ }
+  .unread-user{
+    margin-left: 10%;
+    img{
+      width:10px;
+    }
+  }
+}
+
+.user:hover {
+  background-color: #BE8580;
+  border-radius: 10px;
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    // background-color: $primaryColor;
+    color: white;
+  }
+
+.left-side {
+  display: flex;
+  flex-direction: column;
+  width: 18%;
+  height: 100%;
+  background-color: #282828;
+  // background-color: $thirdColor;
+  overflow: hidden;
+  margin: 0;
+}
+
+.users-list {
+  flex-direction: column;
+  height: 100%;
+  overflow-y: scroll;
+  align-items: center;
+}
+
+.users-list::-webkit-scrollbar {
+  display: none;
+}
+
+.right-side {
+  display: flex;
+  flex-direction: column;
+  width: 82%;
+  height: 100%;
+  background: linear-gradient(151.32deg, #FFD585 -45.44%, rgba(226, 50, 255, 0) 108.03%), #7D486A;
+}

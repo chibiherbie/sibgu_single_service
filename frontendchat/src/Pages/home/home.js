@@ -1,22 +1,22 @@
 import React, {useState, useContext, useEffect} from "react";
 import search from "../../assets/search.svg"
-import ellipse2 from "../../assets/ellipse2.svg"
 import iconMenu from "../../assets/iconMenu.svg"
 import { ProfileModal } from "./homeComponents";
-
-import './Home.scss';
+import './home.scss';
 import {store} from "../../stateManagment/store";
 import Loader from "../../components/loader";
 import { logout } from "../authController"
 import UsersList from "./userList";
+import Chat from "./chat";
 
 const Home = (props) => {
     const [showProfile, setShowProfile] = useState(false);
     const [profileClosable, setProfileClosable] = useState(true);
     const [dropdown, setDropdown] = useState(false);
     const [userdetail, setUserDetail] = useState(null);
+    const [activeUser, setActiveUser] = useState(null);
 
-    const {state: {userDetail}} = useContext(store);
+    const {state: {userDetail, activeChatUser}} = useContext(store);
 
     useEffect(() => {
         if (userDetail !== userdetail) {
@@ -26,7 +26,12 @@ const Home = (props) => {
                 setProfileClosable(false);
             }
         }
-    }, [userDetail])
+
+        if (activeUser !== activeChatUser) {
+            setActiveUser(activeChatUser);
+        }
+
+    }, [userDetail, activeChatUser])
 
     if (!userdetail) {
         return (
@@ -68,21 +73,9 @@ const Home = (props) => {
                     </div>
 
                     <div className="right-side">
-                        <div className="user-bar">
-                            <div className="chat-photo">
-                                <img src={ellipse2}></img>
-                            </div>
-                            <div className="info-chat">
-                                <p class="firststr">name</p>
-                                <p class="secondstr">TG</p>
-                            </div>
-                        </div>
-
-
-                        <div className="interface">
-
-                        </div>
-
+                        {
+                            activeUser ? <Chat activeUser={activeUser}/> : <div></div>
+                        }
                     </div>
             </div>
         </>

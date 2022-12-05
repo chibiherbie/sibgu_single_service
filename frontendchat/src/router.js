@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Login from "./Pages/login";
 import Register from "./Pages/register";
-import Home from "./Pages/Home/Home";
+import Home from "./Pages/home/home";
 import AuthController from "./Pages/authController";
 
 
@@ -17,7 +17,7 @@ const Router = () => {
                         <Route {...props} path="/" component={Home} exact/>
                     </AuthController>
                 )} /> }
-                {/*<Route path='/' component={Home} />*/}
+                {/*<Route path='/' component={home} />*/}
 
             </Switch>
         </BrowserRouter>

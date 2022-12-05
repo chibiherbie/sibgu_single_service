@@ -13,6 +13,10 @@ html, body, #root {
   display: flex;
 }
 
+.clickable {
+  cursor: pointer;
+}
+
 a {
   font-size: 14px;
   color: $secondaryColor
@@ -126,8 +130,6 @@ button {
   justify-content: center;
   min-height: 100vh;
 }
-
-
 
 @keyframes rotate {
   to {

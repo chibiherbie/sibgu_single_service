@@ -1,15 +1,19 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import ellipse2 from "../../assets/ellipse2.svg";
 import ellipse1 from "../../assets/ellipse1.svg";
 import {axiosHandler, getToken} from "../../helper";
 import {PROFILE_URL} from "../../urls";
 import Loader from "../../components/loader";
+import {store} from "../../stateManagment/store";
+import {activeChatUserAction} from "../../stateManagment/actions";
 
 function UsersList() {
 
     const [users, setUsers] = useState([]);
     const [fetching, setFetching] = useState(true);
     const [nextPage, setNextPage] = useState(1);
+
+    const {dispatch} = useContext(store);
 
     useEffect(() =>{
        getUserList()
@@ -31,6 +35,10 @@ function UsersList() {
         }
     };
 
+    const setActiveUser = (user_data) => {
+        dispatch({type: activeChatUserAction, payload: user_data});
+    };
+
     return (
 
         <div className="flex users-list">
@@ -42,6 +50,8 @@ function UsersList() {
                         profilePictire={item.profile_picture}
                         message={item.last_name}
                         count={item.message_count}
+                        clickable
+                        onClick={() => setActiveUser(item)}
                     />))
             }
         </div>
@@ -53,7 +63,8 @@ export default UsersList;
 
 export const User = (props) => {
     return (
-        <div className="flex user">
+        <div className={`flex user ${props.clickable ? "clickable" : ""}`}
+        onClick={() => props.clickable && props.onClick()}>
             <div className="imag-user">
                 <img src={!props.profilePictire ? ellipse2 : props.profilePictire}></img>
             </div>

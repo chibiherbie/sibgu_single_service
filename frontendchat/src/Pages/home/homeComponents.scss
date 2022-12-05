@@ -185,3 +185,153 @@
 }
 
 .show {display:block;}
+
+// --------chat.js-------------
+
+.user-bar {
+  height: 60px;
+  background-color: #282828;
+  align-items: center;
+
+  flex-direction: row;
+  padding-left: 30px;
+
+  .chat-photo{
+    width: 44px;
+    height: 44px;
+    overflow: hidden;
+    border-radius: 22px;
+
+    img{
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
+
+  }
+
+  .info-chat{
+
+    .firststr{
+      margin-left: 50%;
+      margin-bottom: 15%;
+      margin-top: 15%;
+      font-size: 12px;
+    }
+
+    .secondstr{
+      margin-left: 50%;
+      margin-bottom: 5%;
+      margin-top: 15%;
+      font-size: 12px;
+      color: rgba(#ABABAB, 0.65);
+    }
+  }
+}
+
+
+.messageZone {
+  margin: 0 auto;
+  padding: 20px 40px;
+  flex: 1;
+  overflow: auto;
+  width: 50%;
+  box-sizing: border-box;
+  transition: .5s ease;
+  flex-wrap: nowrap;
+  vertical-align:bottom;
+
+  @media screen and (max-width: 480px) {
+    padding: 20px;
+  }
+}
+
+
+.chatbubbleCon {
+  display: flex;
+
+  .chatbubble {
+    max-width: 600px;
+    padding: 10px;
+    background-color: $thirdColor;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+
+    p {
+      margin: 0;
+    }
+
+    .time {
+      font-size: 10px;
+      margin-top: 5px;
+      color: rgba(white, 0.5);
+      align-self: flex-end;
+    }
+  }
+
+  &.sender {
+    justify-content: flex-end;
+
+    .chatbubble {
+      background-color: $secondaryColor;
+    }
+  }
+}
+
+.interface {
+  margin: 0 auto;
+  width: 50%;
+  height: 150px;
+  padding: 10px 40px;
+  box-sizing: border-box;
+  padding-top: 50px;
+
+
+  img{
+      width: 50px;
+      height: 50px;
+  }
+  button {
+    height: 50px;
+    height: unset;
+    margin: unset;
+    border-radius: unset;
+    font-size: unset;
+    font-weight: unset;
+  }
+
+  @media screen and (max-width: 480px) {
+    padding: 10px 20px;
+    height: 120px;
+
+  }
+
+  input {
+
+    width: 100%;
+    background-color: $thirdColor;
+    border: none;
+    padding: 10px;
+    height: 50px;
+    box-sizing: border-box;
+    outline: none;
+    color: white;
+    border-radius: 15px;
+
+    @media screen and (max-width: 480px) {
+      margin-top: 10px;
+    }
+  }
+
+  button {
+    width: unset;
+    height: unset;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+  }
+}

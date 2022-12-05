@@ -1,49 +1,66 @@
-import { updateChatAction, userDetailAction, activeChatAction } from "./actions";
+import {
+  updateChatAction,
+  userDetailAction,
+  activeChatAction,
+  activeChatUserAction,
+} from "./actions";
 
 export const updateChatState = {
-    chatState: false,
-};
-
-export const userDetailState = {
-    userDetail: null,
+  chatState: false,
 };
 
 export const activeChatState = {
-    activeChat: null,
+  activeChat: null,
+};
+
+export const activeChatUserState = {
+  activeChatUser: null,
+};
+
+export const userDetailState = {
+  userDetail: null,
 };
 
 export const activeChatReducer = (state, action) => {
-    if (action.type === activeChatAction) {
-        return {
-            ...state,
-            activeChat: action.payload,
-        };
-    }
-    else {
-        return state;
-    }
+  if (action.type === activeChatAction) {
+    return {
+      ...state,
+      activeChat: action.payload,
+    };
+  } else {
+    return state;
+  }
+};
+
+export const activeChatUserReducer = (state, action) => {
+  if (action.type === activeChatUserAction) {
+    return {
+      ...state,
+      activeChatUser: action.payload,
+    };
+  } else {
+    return state;
+  }
 };
 
 export const userDetailReducer = (state, action) => {
-    if (action.type === userDetailAction) {
-        return {
-            ...state,
-            userDetail: action.payload,
-        };
-    }
-    else {
-        return state;
-    }
+  if (action.type === userDetailAction) {
+    return {
+      ...state,
+      userDetail: action.payload,
+    };
+  } else {
+    return state;
+  }
 };
 
 export const updateChatReducer = (state, action) => {
-    if (action.type === updateChatAction){
-        return {
-            ...state,
-            chatState: action.payload,
-        };
-    }
-    else {
-        return state;
-    }
+  if (action.type === updateChatAction) {
+    return {
+      ...state,
+      chatState: action.payload,
+    };
+  } else {
+    return state;
+  }
 };
