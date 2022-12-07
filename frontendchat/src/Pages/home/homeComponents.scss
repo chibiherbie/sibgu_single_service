@@ -145,6 +145,10 @@
   position: relative;
   display: inline-block;
   margin-right: 10px;
+
+  p {
+    cursor: pointer;
+  }
 }
 
 .dropdown_btn {
@@ -238,8 +242,6 @@
   width: 50%;
   box-sizing: border-box;
   transition: .5s ease;
-  flex-wrap: nowrap;
-  vertical-align:bottom;
 
   @media screen and (max-width: 480px) {
     padding: 20px;

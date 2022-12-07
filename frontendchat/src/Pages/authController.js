@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import Loader from "../components/loader";
-import {axiosHandler, getToken} from "../helper";
+import {axiosHandler, getToken, LastUserChat} from "../helper";
 import {LOGOUT_URL, ME_URL, REFRESH_URL} from "../urls";
 import {store} from "../stateManagment/store";
 import { userDetailAction } from "../stateManagment/actions";
@@ -16,6 +16,7 @@ export const logout = (props) => {
         });
     }
     localStorage.removeItem(tokenName);
+    localStorage.removeItem(LastUserChat);
     window.location.href = "/login"
 };
 

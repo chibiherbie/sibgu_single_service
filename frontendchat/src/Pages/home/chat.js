@@ -8,6 +8,7 @@ import {MESSAGE_URL} from "../../urls";
 import moment from "moment";
 import {activeChatAction} from "../../stateManagment/actions";
 import {store} from "../../stateManagment/store";
+import {ProfileModal} from "./homeComponents";
 
 
 function Chat(props) {
@@ -16,6 +17,7 @@ function Chat(props) {
     const [fetching, setFetching] = useState(true);
     const [nextPage, setNextPage] = useState(1);
     const [canGoNext, setCanGoNext] = useState(false);
+    const [showProfileModal, setShowProfileModal] = useState(false);
 
     const {state:{activeChat}, dispatch} = useContext(store)
 
@@ -31,13 +33,31 @@ function Chat(props) {
 
         if (result) {
             setMessages(result.data.results.reverse());
+
+            result.data.results.map(item => {
+                if (item.is_read) return null
+                if (item.receiver.user.id === props.loggedUser.user.id){
+                    updateMessage(item.id);
+                }
+               return null
+            });
+
             if (result.data.next) {
                 setCanGoNext(true);
                 setNextPage(nextPage + 1);
             }
             setFetching(false);
+            scrollToBottom();
         }
     }
+
+    const updateMessage = async (message_id) => {
+        const token = await getToken()
+        axiosHandler({
+            method: "patch", url: MESSAGE_URL + `/${message_id}`, token: token, data: {
+                is_read: true
+            }});
+    };
 
     useEffect(() => {
         getMessages()
@@ -52,6 +72,8 @@ function Chat(props) {
 
     const submitMessage = async (e) => {
         setMessage("")
+        scrollToBottom();
+
         e.preventDefault();
         let data = {
             sender_id: props.loggedUser.user.id,
@@ -70,7 +92,8 @@ function Chat(props) {
         }).catch(e => console.log(errorHandler(e)));
 
         if (result) {
-            messages[lastIndex] = result.data
+            messages[lastIndex] = result.data;
+
             setMessages(messages);
         }
     };
@@ -82,11 +105,26 @@ function Chat(props) {
         else return ""
     };
 
+    const scrollToBottom = () => {
+        setTimeout(() => {
+            let messageZone = document.getElementById("messageZone");
+            messageZone.scrollTop = messageZone.scrollHeight;
+        }, 300)
+    };
 
     return (
         <>
+            <ProfileModal {...props}
+                close={() => setShowProfileModal(false)}
+                visible={showProfileModal}
+                closable={true}
+                userDetail={props.activeUser}
+                setClosable={() => null}
+                view
+
+            />
             <div className="flex user-bar">
-                <div className="chat-photo">
+                <div className="chat-photo" onClick={() => setShowProfileModal(true)}>
                     <img src={ellipse2}></img>
                 </div>
                 <div className="info-chat">
@@ -95,7 +133,7 @@ function Chat(props) {
                 </div>
             </div>
 
-            <div className="messageZone">
+            <div className="messageZone" id="messageZone">
                 { fetching ? (
                     <center><Loader/></center>
                 ) : messages.length < 1 ? (

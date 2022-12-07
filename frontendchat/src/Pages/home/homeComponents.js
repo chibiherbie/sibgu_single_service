@@ -1,9 +1,13 @@
 import close from "../../assets/close.svg"
-import React, { useState } from "react";
+import React, {useContext, useState} from "react";
 import Loader from "../../components/loader";
 import {axiosHandler, errorHandler, getToken} from "../../helper";
 import {PROFILE_URL} from "../../urls";
 import './homeComponents.scss';
+import {store} from "../../stateManagment/store";
+import {userDetailAction} from "../../stateManagment/actions";
+
+let profileRef;
 
 export const ProfileModal = (props) => {
 
@@ -11,21 +15,30 @@ export const ProfileModal = (props) => {
     ...props.userDetail, user_id: props.userDetail.user.id
   });
   const [submitted, setSubmitted] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [photoProfile, setPhotoProfile] = useState("");
+
+  const { dispatch } = useContext(store);
 
   const submit = async (e) => {
     e.preventDefault();
     setSubmitted(true);
     const token = await getToken(props);
+
+    const url =
+      PROFILE_URL +
+      `${props.userDetail.first_name ? `/${props.userDetail.id}` : ""}`;
+    const method = props.userDetail.first_name ? "patch" : "post";
     const profile = await axiosHandler({
-      method: props.userDetail.first_name ? "patch" : "post",
-      url: PROFILE_URL + `${props.userDetail.first_name ? `/${profileData.user_id}` : ""}`,
+      method,
+      url,
       data: profileData,
       token,
-    }).catch(e => alert(errorHandler(e)));
+    }).catch((e) => alert(errorHandler(e)));
     setSubmitted(false);
     if (profile) {
-        props.setClosable(true);
-        console.log(profile.data)
+        props.setClosable();
+        dispatch({ type: userDetailAction, payload: profile.data });
       }
   };
 
@@ -34,6 +47,15 @@ export const ProfileModal = (props) => {
       ...profileData,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const handleOnChange = async (e) => {
+    let data = new FormData()
+    data.append("file_upload", e.target.files[0])
+    setUploading(true);
+    console.log(e)
+    setUploading(false);
+    // setProfileData(...profileData, prof)
   };
 
   return (
@@ -49,8 +71,10 @@ export const ProfileModal = (props) => {
               <div
                 className="imageCon"
               />
-              <div className="point">
-                Изменить фото
+              <input type="file" style={{display: "none"}} ref={e => profileRef = e} onChange={handleOnChange}/>
+              <div className="point" onClick={() => profileRef.click()}>
+                {!props.view && <p>Изменить фото</p>}
+
                 {/*<img src={edit} />*/}
               </div>
             </div>
@@ -58,10 +82,11 @@ export const ProfileModal = (props) => {
               <label>
                 <span>First name</span>
                 <input
-                  name="first_name"
-                  value={profileData.first_name}
-                  onChange={onChange}
-                  required
+                    name="first_name"
+                    value={profileData.first_name}
+                    onChange={onChange}
+                    disabled={props.view}
+                    required
                 />
               </label>
               <label>
@@ -70,13 +95,16 @@ export const ProfileModal = (props) => {
                     name="last_name"
                     value={profileData.last_name}
                     onChange={onChange}
+                    disabled={props.view}
                     required
                 />
               </label>
             </div>
           </div>
-          <button type="submit" disabled={submitted}>{submitted ? (<center><Loader/></center>) :
-                        (props.visible ? "Завершить регистрацию" : "Обновить данные")}</button>
+          {
+          !props.view && <button type="submit" disabled={submitted}>{submitted ? (<center><Loader/></center>) :
+                        (!props.visible ? "Завершить регистрацию" : "Обновить данные")}</button>
+          }
         </form>
       </div>
     </div>
