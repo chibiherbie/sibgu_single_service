@@ -16,7 +16,10 @@ const Home = (props) => {
     const [userdetail, setUserDetail] = useState(null);
     const [activeUser, setActiveUser] = useState(null);
 
-    const {state: {userDetail, activeChatUser}} = useContext(store);
+    const {
+        state: { userDetail, activeChatUser },
+    } = useContext(store);
+
 
     useEffect(() => {
         if (userDetail !== userdetail) {
@@ -50,6 +53,7 @@ const Home = (props) => {
                 userDetail={userdetail}
                 setClosable={() => setProfileClosable(true)}
             />
+
             <div className="container">
                     <div className="left-side">
                         <div className="flex search-bar">
@@ -57,7 +61,10 @@ const Home = (props) => {
                                 <button onClick={() => setDropdown(!dropdown)}
                                         className="dropdown_btn"><img src={iconMenu}/></button>
                                 <div id="myDropdown" className={`dropdown-content ${dropdown ? "show" : ""}`}>
-                                    <p>Аккаунт</p>
+                                    <p onClick={() => {
+                                        setShowProfile(true);
+                                        setDropdown(!dropdown);}
+                                    }>Аккаунт</p>
                                     <p className="logout" onClick={() => logout(props)}>Выйти</p>
                                 </div>
                             </div>
@@ -74,7 +81,7 @@ const Home = (props) => {
 
                     <div className="right-side">
                         {
-                            activeUser ? <Chat activeUser={activeUser}/> : <div></div>
+                            activeUser && (<Chat activeUser={activeUser} loggedUser={userdetail}/>)
                         }
                     </div>
             </div>
@@ -83,12 +90,3 @@ const Home = (props) => {
 };
 
 export default Home;
-
-export const Message = (props) => {
-
-    return (
-        <div className="message">
-            
-        </div>
-    );
-}

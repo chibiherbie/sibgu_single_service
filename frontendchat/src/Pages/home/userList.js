@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from "react";
 import ellipse2 from "../../assets/ellipse2.svg";
 import ellipse1 from "../../assets/ellipse1.svg";
-import {axiosHandler, getToken} from "../../helper";
+import {axiosHandler, getToken, LastUserChat} from "../../helper";
 import {PROFILE_URL} from "../../urls";
 import Loader from "../../components/loader";
 import {store} from "../../stateManagment/store";
@@ -33,9 +33,24 @@ function UsersList() {
             setUsers(_users.data.results)
             setFetching(false)
         }
+
+        checkLastChat(_users.data.results);
     };
 
+    // Включает последний выбранный чат
+    const checkLastChat = (users) => {
+        let lastUserChat = localStorage.getItem(LastUserChat)
+
+        if (lastUserChat){
+            lastUserChat = JSON.parse(lastUserChat);
+            if (users.filter(item => item.id === lastUserChat.id).length){
+                dispatch({type: activeChatUserAction, payload: lastUserChat});
+            }
+        }
+    }
+
     const setActiveUser = (user_data) => {
+        localStorage.setItem(LastUserChat, JSON.stringify(user_data));
         dispatch({type: activeChatUserAction, payload: user_data});
     };
 

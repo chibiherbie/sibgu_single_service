@@ -8,9 +8,9 @@ const port = 9000
 
 app = express();
 
-const server = http.createServer(app).listen(port, () => {});
+const server = new http.createServer(app).listen(port, () => {});
 
-app.use(cors());
+app.use(cors( {     credentials: true,     origin: 'http://localhost:9000' }));
 
 app.use(express.static(path.join(__dirname, "client")));
 

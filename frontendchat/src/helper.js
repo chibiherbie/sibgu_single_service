@@ -3,6 +3,8 @@ import {logout, tokenName} from "./Pages/authController";
 import {ME_URL, REFRESH_URL} from "./urls";
 import {userDetailAction} from "./stateManagment/actions";
 
+export const LastUserChat = "lastUserChat";
+
 export const axiosHandler = ({
   method = "",
   url = "",
