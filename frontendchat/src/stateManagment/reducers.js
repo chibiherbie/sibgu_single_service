@@ -9,6 +9,10 @@ export const updateChatState = {
   chatState: false,
 };
 
+export const triggerRefreshUserListState = {
+  triggerRefreshUserList: false,
+};
+
 export const activeChatState = {
   activeChat: null,
 };

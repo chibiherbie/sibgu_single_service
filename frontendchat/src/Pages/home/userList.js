@@ -6,38 +6,57 @@ import {PROFILE_URL} from "../../urls";
 import Loader from "../../components/loader";
 import {store} from "../../stateManagment/store";
 import {activeChatUserAction} from "../../stateManagment/actions";
+import searchSvg from "../../assets/search.svg"
+
+
+let goneNext = false;
 
 function UsersList() {
 
     const [users, setUsers] = useState([]);
     const [fetching, setFetching] = useState(true);
     const [nextPage, setNextPage] = useState(1);
+    const [canGoNext, setCanGoNext] = useState(false);
+    const [search, setSearch] = useState("");
 
     const {dispatch} = useContext(store);
 
     useEffect(() =>{
-       getUserList()
-    }, []);
+       getUserList();
+    }, [search]);
 
-    const getUserList = async () => {
+    const getUserList = async (append=false) => {
+        let extra = "";
+        if (search !== "") {
+            extra += `&keyword${search}`
+        }
+
+        setCanGoNext(false);
         const _token = await getToken();
         const _users = await axiosHandler({
             method: "get",
-            url: PROFILE_URL + `?page=${nextPage}`,
+            url: PROFILE_URL + `?page=${nextPage}${extra}`,
             token: _token,
         }).catch((e) => null);
         if (_users) {
             if (_users.data.next){
                 setNextPage(nextPage+1)
+                setCanGoNext(true);
             }
-            setUsers(_users.data.results)
-            setFetching(false)
+            if (append){
+                setUsers(...users, ..._users.data.results)
+                goneNext = false;
+            }
+            else {
+                setUsers(_users.data.results)
+            }
+                setFetching(false)
         }
 
-        checkLastChat(_users.data.results);
+        // checkLastChat(_users.data.results);
     };
 
-    // Включает последний выбранный чат
+    // Включает последний выбранный при загрузке чат
     const checkLastChat = (users) => {
         let lastUserChat = localStorage.getItem(LastUserChat)
 
@@ -54,9 +73,17 @@ function UsersList() {
         dispatch({type: activeChatUserAction, payload: user_data});
     };
 
+    const handleScroll = (e) => {
+        if (e.target.scrollTop >= (e.target.scrollHeight = (e.target.offsetHeight + 200))) {
+            if (canGoNext && !goneNext) {
+                getUserList(true);
+            }
+        }
+    };
+
     return (
 
-        <div className="flex users-list">
+        <div className="flex users-list" onScroll={handleScroll}>
             {
                 fetching ? (<center><Loader/></center>) :
                     (users.map((item, i) => <User
@@ -75,6 +102,27 @@ function UsersList() {
 }
 
 export default UsersList;
+
+let debounceTimeout;
+export const SearchDebounce = (props) => {
+     const [search, setSearch] = useState("");
+
+    useEffect(() => {
+        clearTimeout(debounceTimeout);
+        debounceTimeout = setTimeout(() => {
+            props.setSearch(search)
+        }, 1000)
+    }, [search]);
+
+
+     return (
+          <div className="flex search-bar_button">
+             <img src={searchSvg}></img>
+             <input placeholder="Поиск" type="text" value={search} onChange={e => setSearch(e.target.value)}></input>
+         </div>
+     )
+}
+
 
 export const User = (props) => {
     return (

@@ -1,12 +1,11 @@
 import React, {useState, useContext, useEffect} from "react";
-import search from "../../assets/search.svg"
 import iconMenu from "../../assets/iconMenu.svg"
 import { ProfileModal } from "./homeComponents";
 import './home.scss';
 import {store} from "../../stateManagment/store";
 import Loader from "../../components/loader";
 import { logout } from "../authController"
-import UsersList from "./userList";
+import UsersList, {SearchDebounce} from "./userList";
 import Chat from "./chat";
 
 const Home = (props) => {
@@ -15,6 +14,8 @@ const Home = (props) => {
     const [dropdown, setDropdown] = useState(false);
     const [userdetail, setUserDetail] = useState(null);
     const [activeUser, setActiveUser] = useState(null);
+
+    const [search, setSearch] = useState("");
 
     const {
         state: { userDetail, activeChatUser },
@@ -69,13 +70,10 @@ const Home = (props) => {
                                 </div>
                             </div>
                             {/*<div onClick={() => logout(props)}></div>*/}
-                            <div className="flex search-bar_button">
-                                <img src={search}></img>
-                                <input placeholder="Поиск" type="text"></input>
-                            </div>
+                            <SearchDebounce setSearch={setSearch} />
                         </div>
 
-                    <UsersList/>
+                    <UsersList />
 
                     </div>
 

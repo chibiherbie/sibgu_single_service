@@ -11,6 +11,8 @@ import {store} from "../../stateManagment/store";
 import {ProfileModal} from "./homeComponents";
 
 
+let goneNext = false;
+
 function Chat(props) {
     const [message, setMessage] = useState("");
     const [messages, setMessages] = useState([]);
@@ -21,18 +23,24 @@ function Chat(props) {
 
     const {state:{activeChat}, dispatch} = useContext(store)
 
-    const getMessages = async () => {
+    const getMessages = async (append=false) => {
         const token = await getToken();
         setCanGoNext(false);
 
         const result = await axiosHandler({
             method: 'get',
-            url: MESSAGE_URL + `?user_id=${props.activeUser.user.id}`,
+            url: MESSAGE_URL + `?user_id=${props.activeUser.user.id}&page${nextPage}`,
             token,
         }).catch(e => console.log(errorHandler(e)));
 
         if (result) {
-            setMessages(result.data.results.reverse());
+            if (append) {
+                setMessages(...result.data.results.reverse(), ...messages);
+                goneNext = false;
+            }
+            else {
+                setMessages(result.data.results.reverse());
+            }
 
             result.data.results.map(item => {
                 if (item.is_read) return null
@@ -47,7 +55,9 @@ function Chat(props) {
                 setNextPage(nextPage + 1);
             }
             setFetching(false);
-            scrollToBottom();
+            if (!append){
+                scrollToBottom();
+            }
         }
     }
 
@@ -59,9 +69,16 @@ function Chat(props) {
             }});
     };
 
+    const reset = () => {
+        setMessages([])
+        setFetching(true)
+        setCanGoNext(false)
+    }
+
     useEffect(() => {
+        reset()
         getMessages()
-    }, [])
+    }, [props.activeUser])
 
     useEffect(() => {
         if (activeChat) {
@@ -93,13 +110,11 @@ function Chat(props) {
 
         if (result) {
             messages[lastIndex] = result.data;
-
             setMessages(messages);
         }
     };
 
     const handleBubbleType = (item) => {
-        console.log(item);
         if (item.sender_id) return "sender"
         if (item.sender.user.id === props.loggedUser.user.id) return "sender"
         else return ""
@@ -110,6 +125,15 @@ function Chat(props) {
             let messageZone = document.getElementById("messageZone");
             messageZone.scrollTop = messageZone.scrollHeight;
         }, 300)
+    };
+
+    const handleScroll = e => {
+        if (e.target.scrollTop <= 100) {
+            if (canGoNext && !goneNext) {
+                goneNext = true;
+                getMessages(true);
+            }
+        }
     };
 
     return (
@@ -133,7 +157,7 @@ function Chat(props) {
                 </div>
             </div>
 
-            <div className="messageZone" id="messageZone">
+            <div className="messageZone" id="messageZone" onScroll={handleScroll}>
                 { fetching ? (
                     <center><Loader/></center>
                 ) : messages.length < 1 ? (
@@ -167,7 +191,8 @@ export default Chat
 
 
 export const MessageBubble = (props) => {
-  return (
+    return (
+
     <div className={`chatbubbleCon ${props.bubbleType}`}>
       <div className="chatbubble">
         <p>{props.message}</p>
