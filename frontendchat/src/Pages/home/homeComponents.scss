@@ -1,5 +1,10 @@
 @import "../../assets/constStyle";
 
+
+// ---profile-user---
+
+.show {display:block;}
+
 .modalContain {
   position: fixed;
   top: 0;
@@ -141,6 +146,11 @@
   }
 }
 
+// ---/profile-user---
+
+
+// ------
+
 .dropdown {
   position: relative;
   display: inline-block;
@@ -188,9 +198,9 @@
 
 }
 
-.show {display:block;}
+// ------
 
-// --------chat.js-------------
+
 
 .user-bar {
   height: 60px;
@@ -234,20 +244,7 @@
 }
 
 
-.messageZone {
-  margin: 0 auto;
-  padding: 20px 40px;
-  flex: 1;
-  overflow: auto;
-  width: 50%;
-  box-sizing: border-box;
-  transition: .5s ease;
-
-  @media screen and (max-width: 480px) {
-    padding: 20px;
-  }
-}
-
+// ---message---
 
 .chatbubbleCon {
   display: flex;
@@ -283,14 +280,16 @@
   }
 }
 
+// ---/message---
+
+
+// ---chat---
+
 .interface {
   margin: 0 auto;
   width: 50%;
-  height: 150px;
-  padding: 10px 40px;
+  padding: 20px 40px;
   box-sizing: border-box;
-  padding-top: 50px;
-
 
   img{
       width: 50px;
@@ -298,7 +297,6 @@
   }
   button {
     height: 50px;
-    height: unset;
     margin: unset;
     border-radius: unset;
     font-size: unset;
@@ -337,3 +335,20 @@
     cursor: pointer;
   }
 }
+
+
+.messageZone {
+  margin: 0 auto;
+  padding: 20px 40px;
+  flex: 1;
+  overflow: auto;
+  width: 50%;
+  box-sizing: border-box;
+  transition: .5s ease;
+
+  @media screen and (max-width: 480px) {
+    padding: 20px;
+  }
+}
+
+// ---/chat---

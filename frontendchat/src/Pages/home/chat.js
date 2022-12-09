@@ -153,7 +153,7 @@ function Chat(props) {
                 </div>
                 <div className="info-chat">
                     <p className="firststr">{props.activeUser.first_name}</p>
-                    <p className="secondstr">{props.activeUser.first_name}</p>
+                    <p className="secondstr">{props.activeUser.last_name}</p>
                 </div>
             </div>
 

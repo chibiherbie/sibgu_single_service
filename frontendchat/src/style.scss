@@ -1,6 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,200;0,400;0,700;1,400&display=swap');
 @import "./assets/constStyle";
 
+
+// ---main---
+
 html, body, #root {
   margin: 0;
   padding: 0;
@@ -22,14 +25,6 @@ a {
   color: $secondaryColor
 }
 
-.logo {
-  font-size: 36px;
-  color: $secondaryColor;
-  font-weight: bold;
-  text-align: center;
-  margin: 50px 0;
-}
-
 button {
   width: 100%;
   height: 50px;
@@ -41,6 +36,22 @@ button {
   font-weight: 500;
   font-size: 15px;
   cursor: pointer;
+  margin-top: 60px;
+  margin-bottom: 20px;
+}
+
+
+// ---/main---
+
+
+// ---login and register---
+
+.logo {
+  font-size: 36px;
+  color: $secondaryColor;
+  font-weight: bold;
+  text-align: center;
+  margin: 50px 0;
 }
 
 .loginContainer {
@@ -90,17 +101,12 @@ button {
   }
 }
 
-button {
-  margin-top: 60px;
-  margin-bottom: 20px;
-}
-
 .switchOption {
   margin-top: 50px;
   color: rgba(white, 0.33);
   text-align: center;
 
-  b{
+  b {
     font-weight: 500;
     color: $secondaryColor;
   }
@@ -156,5 +162,4 @@ button {
   }
 }
 
-
-
+// ---/login and register---
