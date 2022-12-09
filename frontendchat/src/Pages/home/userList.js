@@ -5,7 +5,7 @@ import {axiosHandler, getToken, LastUserChat} from "../../helper";
 import {PROFILE_URL} from "../../urls";
 import Loader from "../../components/loader";
 import {store} from "../../stateManagment/store";
-import {activeChatUserAction} from "../../stateManagment/actions";
+import {activeChatUserAction, triggerRefreshUserListAction} from "../../stateManagment/actions";
 import searchSvg from "../../assets/search.svg"
 
 
@@ -19,11 +19,19 @@ function UsersList() {
     const [canGoNext, setCanGoNext] = useState(false);
     const [search, setSearch] = useState("");
 
-    const {dispatch} = useContext(store);
+    const { state:{triggerRefreshUserList}, dispatch} = useContext(store);
 
     useEffect(() =>{
        getUserList();
     }, [search]);
+
+      useEffect(() => {
+    if(triggerRefreshUserList){
+      getUserList()
+      dispatch({type: triggerRefreshUserListAction, payload: false})
+    }
+
+  }, [triggerRefreshUserList])
 
     const getUserList = async (append=false) => {
         let extra = "";

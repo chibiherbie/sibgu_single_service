@@ -2,7 +2,8 @@ import React, { createContext, useReducer } from "react";
 import { updateChatReducer, updateChatState,
     userDetailReducer, userDetailState,
     activeChatReducer, activeChatState,
-    activeChatUserReducer, activeChatUserState, } from "./reducers";
+    activeChatUserReducer, activeChatUserState,
+    triggerRefreshUserListReducer, triggerRefreshUserListState} from "./reducers";
 
 const reduceReducers = (...reducers) => (prevState, value, ...args) => {
     return reducers.reduce(
@@ -16,6 +17,7 @@ const combinedReducers = reduceReducers(
     userDetailReducer,
     activeChatReducer,
     activeChatUserReducer,
+    triggerRefreshUserListReducer,
 );
 
 const initialState = {
@@ -23,6 +25,7 @@ const initialState = {
     ...userDetailState,
     ...activeChatState,
     ...activeChatUserState,
+    ...triggerRefreshUserListState,
 };
 
 const store = createContext(initialState);

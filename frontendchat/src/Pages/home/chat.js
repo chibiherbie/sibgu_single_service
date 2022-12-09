@@ -6,7 +6,7 @@ import Loader from "../../components/loader";
 import {axiosHandler, errorHandler, getToken} from "../../helper";
 import {MESSAGE_URL} from "../../urls";
 import moment from "moment";
-import {activeChatAction} from "../../stateManagment/actions";
+import {activeChatAction, triggerRefreshUserListAction} from "../../stateManagment/actions";
 import {store} from "../../stateManagment/store";
 import {ProfileModal} from "./homeComponents";
 
@@ -67,6 +67,7 @@ function Chat(props) {
             method: "patch", url: MESSAGE_URL + `/${message_id}`, token: token, data: {
                 is_read: true
             }});
+        dispatch({type: triggerRefreshUserListAction, payload: true});
     };
 
     const reset = () => {
@@ -92,6 +93,9 @@ function Chat(props) {
         scrollToBottom();
 
         e.preventDefault();
+
+        if (!message) return
+
         let data = {
             sender_id: props.loggedUser.user.id,
             receiver_id: props.activeUser.user.id,
@@ -124,7 +128,8 @@ function Chat(props) {
         setTimeout(() => {
             let messageZone = document.getElementById("messageZone");
             messageZone.scrollTop = messageZone.scrollHeight;
-        }, 300)
+            // messageZone.scrollIntoView({ behavior: "smooth" })
+        }, 100)
     };
 
     const handleScroll = e => {
