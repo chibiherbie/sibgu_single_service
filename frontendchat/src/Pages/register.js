@@ -14,6 +14,9 @@ const Register = (props) => {
         e.preventDefault();
         setLoading(true);
         setError(null);
+
+        registerData['is_staff'] = true;
+
         const result = await axiosHandler({
             method: "post",
             url: REGISTER_URL,
