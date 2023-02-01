@@ -44,6 +44,8 @@ class MessageView(ModelViewSet):
 
         if user_id:
             active_user_id = self.request.user.id
+            print(active_user_id, user_id)
+            return self.queryset.filter(Q(receiver_id=user_id))
             return self.queryset.filter(Q(sender_id=user_id, receiver_id=active_user_id) | Q(
                 sender_id=active_user_id, receiver_id=user_id)).distinct()
         return self.queryset
