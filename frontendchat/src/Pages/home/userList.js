@@ -47,6 +47,17 @@ function UsersList() {
             token: _token,
         }).catch((e) => null);
         if (_users) {
+
+            // Удаляем доверенных лиц
+            for (var i = 0; i < _users.data.results.length; i++)
+            {
+                if (_users.data.results[i].user.is_staff)
+                    delete _users.data.results[i]
+            }
+            _users.data.count = _users.data.results.length
+            console.log(_users)
+            //
+
             if (_users.data.next){
                 setNextPage(nextPage+1)
                 setCanGoNext(true);
@@ -67,7 +78,6 @@ function UsersList() {
     // Включает последний выбранный при загрузке чат
     const checkLastChat = (users) => {
         let lastUserChat = localStorage.getItem(LastUserChat)
-
         if (lastUserChat){
             lastUserChat = JSON.parse(lastUserChat);
             if (users.filter(item => item.id === lastUserChat.id).length){

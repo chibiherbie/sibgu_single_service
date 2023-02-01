@@ -46,7 +46,8 @@ class TestAuth(APITestCase):
     def test_register(self):
         payload = {
             "username": "privet",
-            "password": "qwerty"
+            "password": "qwerty",
+            "is_staff": True
         }
 
         response = self.client.post(self.register_url, data=payload)
@@ -57,7 +58,7 @@ class TestAuth(APITestCase):
     def test_login(self):
         payload = {
             "username": "privet",
-            "password": "qwerty"
+            "password": "qwerty",
         }
 
         # reg
