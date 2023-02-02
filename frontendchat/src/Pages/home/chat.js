@@ -121,6 +121,7 @@ function Chat(props) {
     const handleBubbleType = (item) => {
         if (item.sender_id) return "sender"
         if (item.sender.user.id === props.loggedUser.user.id) return "sender"
+        if (item.sender.user.is_staff) return "sender"
         else return ""
     };
 

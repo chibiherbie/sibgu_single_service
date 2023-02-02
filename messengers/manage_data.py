@@ -1,5 +1,8 @@
 import requests
 
+import asyncio
+from threading import Thread
+
 HOST = 'http://127.0.0.1:8000/'
 LOGIN_URL = "user/login"
 REGISTER_URL = "user/register"
@@ -7,8 +10,10 @@ PROFILE_URL = 'user/profile'
 ID_USER = 'user/me'
 MESSAGE_URL = "/message/message"
 
+from telegram.telegram import main, answer_message
+
 # ВРЕМЕННО
-receiver_id = 5
+receiver_id = 1
 
 
 def send_data(data):
@@ -25,6 +30,15 @@ def send_data(data):
 
     # send message
     requests.post(HOST + MESSAGE_URL, data=payload, headers=bearer)
+
+
+def answer(data):
+    try:
+        loop = asyncio.new_event_loop()
+        loop.run_until_complete(answer_message(data['user_id'], data['message']))
+    except Exception as e:
+        print('Ошибка')
+        print(e)
 
 
 def register(data):
@@ -73,3 +87,26 @@ def login(data):
         result = response.json()
         return {'Authorization': 'Bearer {}'.format(result['access'])}
 
+
+def start():
+    from server import keep_alive
+    t = Thread(target=keep_alive)
+    t.start()
+
+    main()
+    # loop = asyncio.get_event_loop()
+    # loop.run_until_complete(main())
+
+    #  WORK
+    # loop = asyncio.new_event_loop()
+    # loop.run_until_complete(answer_message(991296393, 1))
+
+    # Thread(target=answer_message, args=['1', '2']).start()
+    # t = Thread(target=main)
+    # t.start()
+
+    print('123')
+
+
+if __name__ == '__main__':
+    start()

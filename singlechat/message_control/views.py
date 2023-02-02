@@ -36,7 +36,7 @@ class MessageView(ModelViewSet):
     queryset = Message.objects.select_related(
         "sender", "receiver").prefetch_related("message_attachments")
     serializer_class = MessageSerializer
-    permission_classes = (IsAuthenticatedCustom, )
+    permission_classes = (IsAuthenticatedCustom,)
 
     def get_queryset(self):
         data = self.request.query_params.dict()
@@ -45,9 +45,10 @@ class MessageView(ModelViewSet):
         if user_id:
             active_user_id = self.request.user.id
             print(active_user_id, user_id)
-            return self.queryset.filter(Q(receiver_id=user_id))
-            return self.queryset.filter(Q(sender_id=user_id, receiver_id=active_user_id) | Q(
-                sender_id=active_user_id, receiver_id=user_id)).distinct()
+
+            return self.queryset.filter(Q(sender_id=user_id) | Q(receiver_id=user_id)).distinct()
+            # return self.queryset.filter(Q(sender_id=user_id, receiver_id=active_user_id) | Q(
+            #     sender_id=active_user_id, receiver_id=user_id)).distinct()
         return self.queryset
 
     def create(self, request, *args, **kwargs):
@@ -73,6 +74,21 @@ class MessageView(ModelViewSet):
             return Response(self.serializer_class(message_data).data, status=201)
 
         handleRequest(serializer)
+
+        # ------
+        try:
+            print(serializer.data['receiver'])
+            if serializer.data['sender']['user']['is_staff']:
+
+                # last_name для определение из каого чата ВРЕМЕННО
+                requests.post('http://127.0.0.1:5000/api/message',
+                              data={"type": serializer.data['receiver']['last_name'],
+                                    "user_id": serializer.data['receiver']['first_name'],
+                                    "message": request.data['message']})
+
+        except Exception as e:
+            print(e)
+        # ------
 
         return Response(serializer.data, status=201)
 
@@ -101,5 +117,3 @@ class MessageView(ModelViewSet):
         handleRequest(serializer)
 
         return Response(serializer.data, status=200)
-
-
