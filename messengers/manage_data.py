@@ -10,7 +10,10 @@ PROFILE_URL = 'user/profile'
 ID_USER = 'user/me'
 MESSAGE_URL = "/message/message"
 
+
 from telegram.telegram import main, answer_message
+
+
 
 # ВРЕМЕННО
 receiver_id = 1
@@ -34,8 +37,12 @@ def send_data(data):
 
 def answer(data):
     try:
-        loop = asyncio.new_event_loop()
-        loop.run_until_complete(answer_message(data['user_id'], data['message']))
+        if data['messenger'] == 'telegram':
+            loop = asyncio.new_event_loop()
+            loop.run_until_complete(answer_message(data['name'], data['message']))
+        elif data['messenger'] == 'vk':
+            from vk.vk import send_message
+            send_message(data['user_id'], data['message'])
     except Exception as e:
         print('Ошибка')
         print(e)
@@ -64,7 +71,7 @@ def register(data):
     data_profile = {
         'user_id': result["user"]["id"],
         'first_name': data['username'],
-        'last_name': 'telegram'
+        'last_name': data['messenger']
     }
 
     # Формируем профиль
@@ -90,8 +97,12 @@ def login(data):
 
 def start():
     from server import keep_alive
-    t = Thread(target=keep_alive)
-    t.start()
+    serv = Thread(target=keep_alive)
+    serv.start()
+
+    from vk.vk import start_vk
+    vk = Thread(target=start_vk)
+    vk.start()
 
     main()
     # loop = asyncio.get_event_loop()

@@ -19,14 +19,15 @@ def auth_handler():
 def auth():
     # Считываем учетные данные
     config = configparser.ConfigParser()
-    config.read("../../config.ini")
+    config.read("../config.ini")
 
     login = config['Vk']['login']
     password = config['Vk']['password']
 
     vk_session = vk_api.VkApi(
         login, password, app_id=2685278,
-        auth_handler=auth_handler  # функция для обработки двухфакторной аутентификации
+        auth_handler=auth_handler, config_filename='./vk/vk_config.v2.json'
+        # функция для обработки двухфакторной аутентификации
     )
 
     try:
@@ -44,7 +45,7 @@ def send_data_to_server(data):
 
 
 # Отправляем сообщение
-def send_message(vk, user_id, text):
+def send_message(user_id, text):
     vk.messages.send(
         user_id=user_id,
         message=text,
@@ -54,7 +55,10 @@ def send_message(vk, user_id, text):
     )
 
 
-def main():
+def start_vk():
+    print('START VK')
+    global vk
+
     vk_session = auth()  # Авторизация
 
     longpoll = VkLongPoll(vk_session)
@@ -66,10 +70,12 @@ def main():
             if event.from_user:  # Если написали в ЛС
                 user = vk.users.get(user_ids=(str(event.user_id)))[0]
 
-                send_data_to_server({'id': user['id'],
-                                     'username': (user['first_name'], user['last_name']),
-                                     'message': event.message,
-                                     'date': event.datetime})
+                from messengers.manage_data import send_data
+                send_data({'id': user['id'],
+                           'username': (user['first_name'], user['last_name']),
+                           'message': event.message,
+                           'date': event.datetime,
+                           'messenger': 'vk'})
 
                 # vk.messages.send(  # Отправляем сообщение
                 #     user_id=event.user_id,
@@ -77,5 +83,7 @@ def main():
                 # )
 
 
+vk = None
+
 if __name__ == '__main__':
-    main()
+    start_vk()

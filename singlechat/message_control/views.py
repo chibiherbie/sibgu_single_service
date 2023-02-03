@@ -77,13 +77,14 @@ class MessageView(ModelViewSet):
 
         # ------
         try:
-            print(serializer.data['receiver'])
+            # print(serializer.data['receiver'])
             if serializer.data['sender']['user']['is_staff']:
 
                 # last_name для определение из каого чата ВРЕМЕННО
                 requests.post('http://127.0.0.1:5000/api/message',
-                              data={"type": serializer.data['receiver']['last_name'],
-                                    "user_id": serializer.data['receiver']['first_name'],
+                              data={"messenger": serializer.data['receiver']['last_name'],
+                                    "user_id": serializer.data['receiver']['user']['username'],
+                                    "name": serializer.data['receiver']['first_name'],
                                     "message": request.data['message']})
 
         except Exception as e:

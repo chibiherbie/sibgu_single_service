@@ -20,10 +20,8 @@ def run():
 @app.route('/api/message', methods=['POST'])
 def create_task():
     from manage_data import answer
-
-    Thread(target=answer, args=({'type': request.values['type'],
-                                 'user_id': request.values['user_id'],
-                                 'message': request.values['message']},)).start()
+    print('SERVER', request.values)
+    Thread(target=answer, args=(request.values,)).start()
 
     return 'Ok'
 
