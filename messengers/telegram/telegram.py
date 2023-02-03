@@ -31,6 +31,12 @@ async def normal_handler(event):
 
     sender = await event.get_sender()
 
+    # ----------
+    # if sender.id != 991296393:
+    #     print('Не тот')
+    #     return
+    # ---------
+
     from messengers.manage_data import send_data
     loop2 = asyncio.new_event_loop()
     loop2.run_in_executor(send_data({'id': sender.id,

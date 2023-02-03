@@ -118,12 +118,13 @@
 .left-side {
   display: flex;
   flex-direction: column;
-  width: 18%;
+  width: 20%;
   height: 100%;
   background-color: #282828;
   // background-color: $thirdColor;
   overflow: hidden;
   margin: 0;
+  transition: .5s ease;
 }
 
 .users-list {
@@ -145,8 +146,42 @@
   background: linear-gradient(151.32deg, #FFD585 -45.44%, rgba(226, 50, 255, 0) 108.03%), #7D486A;
 }
 
+.mobile{
+  display: none;
+}
+
 @media screen and (max-width: 768px) {
-  .left-side {
+  .mobile{
+    display: block;
+  }
+  .desktop{
     display: none;
+  }
+
+  .right-side {
+    width: 100%;
+  }
+
+  .hamburger-lines {
+    padding-right: 35px;
+  }
+
+  .close-left-side{
+    width: 15px;
+    padding-left: 15px;
+    padding-right: 25px;
+  }
+
+  .left-side {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    z-index: 11;
+    top: 0;
+    width: 50%;
+
+    &.close {
+      left: -350px;
+    }
   }
 }

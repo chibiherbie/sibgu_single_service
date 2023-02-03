@@ -1,6 +1,7 @@
 import React, {useContext, useEffect, useState} from "react";
 import ellipse2 from "../../assets/ellipse2.svg";
 import send from "../../assets/icon_send.svg";
+import menu from "../../assets/menu.svg"
 import './homeComponents.scss';
 import Loader from "../../components/loader";
 import {axiosHandler, errorHandler, getToken} from "../../helper";
@@ -154,6 +155,9 @@ function Chat(props) {
 
             />
             <div className="flex user-bar">
+                <div className="mobile">
+                    <img src={menu} className='hamburger-lines' alt="" onClick={props.toggleSideBar}/>
+                </div>
                 <div className="chat-photo" onClick={() => setShowProfileModal(true)}>
                     <img src={ellipse2}></img>
                 </div>
