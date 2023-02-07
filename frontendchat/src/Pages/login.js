@@ -116,6 +116,34 @@ export const AuthForm = (props) => {
                     <img alt="" src={!props.showPassword ? eyeopen : eyeclose} onClick={() => props.setShowPassword(!props.showPassword)}/>
                     {/*<img src={eyeclose} />*/}
                 </div>
+                {!props.login ?
+                    (<>
+                        <div className="input-container">
+                        <input
+                            className="input-field"
+                            placeholder="Пароль"
+                            value={props.data.password2}
+                            name={"password2"}
+                            onChange={props.onChange}
+                            type={!props.showPassword ? "password" : "text"}
+                            autoComplete="new-password"
+                            required/>
+                            <img alt="" src={!props.showPassword ? eyeopen : eyeclose}
+                                onClick={() => props.setShowPassword(!props.showPassword)}/>
+                        </div>
+                        <div className="input-container">
+                            <input
+                            className="input-field"
+                            placeholder="Код регистрации"
+                            value={props.data.code}
+                            name={"code"}
+                            onChange={props.onChange}
+                            required/>
+                        </div>
+                        </>
+                    ) : <></>
+                }
+
                 <button type="submit" disabled={props.loading}>
                     {props.loading ? (<center><Loader/></center>) :
                         (props.login ? "Войти" : "Зарегистрироваться")}

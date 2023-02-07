@@ -1,5 +1,5 @@
 import jwt
-from .models import Jwt, CustomUser
+from .models import Jwt, CustomUser, Code
 from datetime import datetime, timedelta
 from django.conf import settings
 import random
@@ -80,6 +80,14 @@ class RegisterView(APIView):
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
+
+        # Проверка кода при регистрации стаффа
+        if serializer.validated_data.get('code'):
+            try:
+                Code.objects.get(code=serializer.validated_data['code']).delete()
+                del serializer.validated_data['code']
+            except Exception:
+                raise ValueError("Данного кода регистрации не сущуствует")
 
         CustomUser.objects._create_user(**serializer.validated_data)
 

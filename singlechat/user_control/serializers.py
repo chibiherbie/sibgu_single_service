@@ -12,7 +12,8 @@ class LoginSerializer(serializers.Serializer):
 class RegisterSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField()
-    is_staff = serializers.BooleanField()
+    is_staff = serializers.BooleanField(required=False)
+    code = serializers.CharField(required=False)
 
 
 class RefreshSerializer(serializers.Serializer):

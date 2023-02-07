@@ -1,5 +1,4 @@
 from django.contrib import admin
-from .models import CustomUser, Jwt
+from .models import CustomUser, Jwt, Code
 
-
-admin.site.register((CustomUser, Jwt))
+admin.site.register((CustomUser, Jwt, Code))

@@ -17,6 +17,18 @@ const Register = (props) => {
 
         registerData['is_staff'] = true;
 
+        // Проверка пароля
+        if (registerData['password'].length < 8){
+            setError(errorHandler('password Пароль должен быть длиньше 8 символов', true))
+            setLoading(false);
+            return
+        }
+        if (registerData['password2'] !== registerData['password']) {
+            setError(errorHandler('password Пароли не совпадают', true))
+            setLoading(false);
+            return
+        }
+
         const result = await axiosHandler({
             method: "post",
             url: REGISTER_URL,

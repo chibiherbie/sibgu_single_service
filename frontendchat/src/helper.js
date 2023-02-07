@@ -31,12 +31,20 @@ export const axiosHandler = ({
   }
 };
 
-export const errorHandler = (err, defaulted = false) => {
-  if (defaulted) {
-    return "Ops!, an error occurred.";
-  }
+export const errorHandler = (err, defaulted=false) => {
+    let messageString = "";
+    if (defaulted) {
+      if (err.includes('password')){
+          messageString += err.slice('password '.length);
+          return messageString.replace(/{|}|'|\[|\]/g, "");
+        }
+      return "Ops!, an error occurred.";
+    }
 
-  let messageString = "";
+
+  // if (err.includes('password')){
+  //         messageString += err.slice('password '.length);
+  // }
   if (!err.response) {
     messageString += "Network error! check your network and try again";
   } else {

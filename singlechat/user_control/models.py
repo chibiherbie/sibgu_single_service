@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from message_control.models import GenericFileUpload
 from django.utils import timezone
+from django.utils.crypto import get_random_string
+from random import choice
 
 
 class CustomUserManager(BaseUserManager):
@@ -30,7 +32,7 @@ class CustomUserManager(BaseUserManager):
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
-    username = models.CharField(unique=True, max_length=100)
+    username = models.CharField(unique=True, max_length=100, default='')
     name = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -72,3 +74,17 @@ class Jwt(models.Model):
     refresh = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+
+class Code(models.Model):
+    code = models.CharField(unique=True, max_length=16, editable=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        if not self.code:
+            self.code = get_random_string(6)
+        return super(Code, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.code
+
