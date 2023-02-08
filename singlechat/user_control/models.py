@@ -32,11 +32,11 @@ class CustomUserManager(BaseUserManager):
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
-    username = models.CharField(unique=True, max_length=100, default='')
-    name = models.CharField(max_length=255)
+    username = models.CharField(unique=True, max_length=100, default='', verbose_name="Имя пользователя")
+    name = models.CharField(max_length=255, verbose_name="Имя")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    is_staff = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=False, verbose_name="Доверенное лицо")
     is_superuser = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_online = models.DateTimeField(default=timezone.now)
@@ -48,6 +48,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         return self.username
 
     class Meta:
+        verbose_name_plural = "Пользователи"
         ordering = ("created_at", )
 
 
@@ -87,4 +88,7 @@ class Code(models.Model):
 
     def __str__(self):
         return self.code
+
+    class Meta:
+        verbose_name_plural = "Коды для регистрации"
 
