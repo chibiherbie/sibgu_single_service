@@ -181,6 +181,7 @@ function Chat(props) {
                                 message={item.message}
                                 time={item.created_at ? moment(item.created_at).format("YYYY-MM-DD hh:mm a") : ""}
                             />
+
                         ))
                     )}
             </div>
@@ -205,7 +206,8 @@ export const MessageBubble = (props) => {
 
     <div className={`chatbubbleCon ${props.bubbleType}`}>
       <div className="chatbubble">
-        <p>{props.message}</p>
+        <p dangerouslySetInnerHTML={{ __html: props.message }}></p>
+        {/*<p>{props.message}</p>*/}
         <div className="time">{props.time}</div>
       </div>
     </div>

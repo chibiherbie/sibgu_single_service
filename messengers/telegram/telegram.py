@@ -1,15 +1,13 @@
 import asyncio
 import configparser
 import json
+import os
 
 from telethon.sync import TelegramClient, events
 
-# класс для работы с сообщениями
-from telethon.tl.functions.messages import GetHistoryRequest, SendMessageRequest
-
 # Считываем учетные данные
 config = configparser.ConfigParser()
-config.read("../config.ini")
+config.read(os.path.join(os.path.split(os.path.dirname(__file__))[0], 'config.ini'))
 
 # Присваиваем значения внутренним переменным
 api_id = config['Telegram']['api_id']

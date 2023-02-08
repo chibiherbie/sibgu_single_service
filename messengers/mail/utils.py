@@ -1,18 +1,16 @@
 import imaplib
-import email
 from email.header import decode_header
-import traceback
 import base64
 import re
 from datetime import datetime
 from bs4 import BeautifulSoup
-import aiohttp
 import asyncio
 import quopri
 
 
-def connection(mail_pass, mail, imap_server):
-    imap = imaplib.IMAP4_SSL(imap_server)
+def connection(mail, mail_pass, imap_server, imap_port):
+    imap = imaplib.IMAP4_SSL(imap_server, imap_port)
+
     sts, res = imap.login(mail, mail_pass)
     if sts == "OK":
         return imap
@@ -77,17 +75,6 @@ def from_subj_decode(msg_from_subj):
         return msg_from_subj
     else:
         return None
-
-
-async def send_message(message, chat, rpl=None, prv=None):
-    print('SEND MSG')
-    # from messengers.manage_data import send_data
-    # loop2 = asyncio.new_event_loop()
-    # loop2.run_in_executor(send_data({'id': sender.id,
-    #                                  'username': sender.username,
-    #                                  'message': event.message.message,
-    #                                  'date': event.message.date,
-    #                                  'messenger': 'telegram'}))
 
 
 async def send_document(document, filename, caption=None, prv=None, rpl=None):
@@ -180,4 +167,4 @@ def post_construct(msg_subj, msg_from, msg_email, letter_text, attachments):
     ]
     txt = "".join(postparts)
 
-    return
+    return txt

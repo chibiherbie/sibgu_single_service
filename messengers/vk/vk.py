@@ -1,3 +1,5 @@
+import os
+
 import vk_api
 import requests
 import configparser
@@ -19,7 +21,7 @@ def auth_handler():
 def auth():
     # Считываем учетные данные
     config = configparser.ConfigParser()
-    config.read("../config.ini")
+    config.read(os.path.join(os.path.split(os.path.dirname(__file__))[0], 'config.ini'))
 
     login = config['Vk']['login']
     password = config['Vk']['password']

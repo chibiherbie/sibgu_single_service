@@ -27,6 +27,7 @@ def create_task():
 
 
 def keep_alive():
+    print('START SERVER')
     t = Thread(target=run)
     t.start()
 

@@ -14,7 +14,6 @@ MESSAGE_URL = "/message/message"
 from telegram.telegram import main, answer_message
 
 
-
 # ВРЕМЕННО
 receiver_id = 1
 
@@ -109,7 +108,7 @@ def start():
     mail = Thread(target=start_mail)
     mail.start()
 
-    # main()
+    main()
     # loop = asyncio.get_event_loop()
     # loop.run_until_complete(main())
 
@@ -120,8 +119,6 @@ def start():
     # Thread(target=answer_message, args=['1', '2']).start()
     # t = Thread(target=main)
     # t.start()
-
-    print('123')
 
 
 if __name__ == '__main__':
