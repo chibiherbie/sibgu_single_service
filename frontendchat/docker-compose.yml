@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: singlechat_service_frontend
+    networks:
+      - mysibsau
+      - default
+
+networks:
+  mysibsau:
+    external: true

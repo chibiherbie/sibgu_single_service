@@ -1,16 +1,16 @@
-let express = require("express")
-let cors = require("cors")
-let http = require("http")
-let bodyParser = require("body-parser")
-let path = require("path")
+let express = require("express");
+let cors = require("cors");
+let http = require("http");
+let bodyParser = require("body-parser");
+let path = require("path");
 
-const port = 9000
+const port = 9000;
 
 app = express();
 
-const server = new http.createServer(app).listen(port, () => {});
+const server = http.createServer(app).listen(port, () => {});
 
-app.use(cors( {     credentials: true,     origin: 'http://localhost:9000' }));
+app.use(cors());
 
 app.use(express.static(path.join(__dirname, "client")));
 
@@ -22,10 +22,11 @@ app.post("/server", (req, res) => {
     res.status(201).json({ status: "reached"});
 });
 
-let io = require("socket.io")(server)
+let io = require("socket.io")(server);
 
-io.on("connection", socket => {
-    socket.on("command", data => {
+// io.set( 'origins', '*localhost:9000' );
+io.on("connection", (socket) => {
+    socket.on("command", function (data) {
         io.emit("command", data);
     });
 });

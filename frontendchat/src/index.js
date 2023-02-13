@@ -10,7 +10,7 @@ ReactDom.render(
     <StoreProvider>
         <Router />
         {/* Socket service as React Component??? */}
-        {/*<SocketService />*/}
+        <SocketService />
     </StoreProvider>,
     document.getElementById("root")
 );
