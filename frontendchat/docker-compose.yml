@@ -13,3 +13,25 @@ services:
 networks:
   mysibsau:
     external: true
+
+
+#version: "3.8"
+#
+#services:
+#  app:
+#    build:
+#      context: .
+#      dockerfile: docker/Dockerfile
+#    container_name: singlechat_service_frontend
+#    volumes:
+#      - ".:/app"
+#    ports:
+#      - 80:3000
+#    networks:
+#      - mysibsau
+#      - default
+#    command: "npm start"
+#
+#networks:
+#  mysibsau:
+#    external: true

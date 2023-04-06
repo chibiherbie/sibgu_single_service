@@ -4,8 +4,8 @@ from .models import CustomUser, Jwt, Code
 
 
 class CustomUserAdmin(admin.ModelAdmin):
-    list_display = ('username', 'is_staff', 'created_at', 'updated_at')
-    fields = ('username', 'password', 'is_staff')
+    list_display = ('username', 'is_staff', 'is_superuser', 'created_at', 'updated_at')
+    fields = ('username', 'password', 'is_staff', 'is_superuser')
     actions = ['get_bd']
     # username.short_description = '123'
 
