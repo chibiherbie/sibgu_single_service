@@ -11,11 +11,11 @@ const SocketService = () => {
 
     const setupSocket = () => {
         socket = openSocket(SOCKET_URL, {
-  cors: {
-    origin: "*",
-    credentials: true
-  }
-})
+          cors: {
+            origin: "*",
+            withCredentials: true
+          }
+        })
         socket.on("command", (data) => {
             if (!userDetail) return;
             if (userDetail !== data.receiver) return;

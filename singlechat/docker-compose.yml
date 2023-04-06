@@ -13,6 +13,8 @@ services:
     networks:
       - default
       - mysibsau
+    environment:
+      - SOCKET_SERVER=http://91.216.164.35:2086
 
 
 networks:

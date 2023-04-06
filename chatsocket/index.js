@@ -22,7 +22,13 @@ app.post("/server", (req, res) => {
     res.status(201).json({ status: "reached"});
 });
 
-let io = require("socket.io")(server);
+let io = require("socket.io")(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"],
+    credentials: true
+  }
+});
 
 // io.set( 'origins', '*localhost:9000' );
 io.on("connection", (socket) => {
@@ -30,5 +36,3 @@ io.on("connection", (socket) => {
         io.emit("command", data);
     });
 });
-
-
