@@ -185,3 +185,5 @@ test.py
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+messengers/bekker_roman_z.session
+messengers/vk/vk_config.v2.json
