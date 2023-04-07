@@ -15,7 +15,16 @@ services:
       - mysibsau
     environment:
       - SOCKET_SERVER=http://91.216.164.35:2086
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 
 networks:
   mysibsau:

@@ -6,6 +6,10 @@ services:
       context: .
       dockerfile: docker/Dockerfile
     container_name: singlechat_service_frontend
+    volumes:
+      - ".:/app"
+    ports:
+      - "3000:80"
     networks:
       - mysibsau
       - default
@@ -13,6 +17,11 @@ services:
 networks:
   mysibsau:
     external: true
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
 
 #version: "3.8"
@@ -35,3 +44,13 @@ networks:
 #networks:
 #  mysibsau:
 #    external: true
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes

@@ -3,7 +3,7 @@ import openSocket from "socket.io-client"
 import {store} from "./stateManagment/store";
 import {activeChatUserAction} from "./stateManagment/actions";
 
-const SOCKET_URL = "http://127.0.0.1:9000/";
+const SOCKET_URL = "http://91.216.164.35:2086/";
 let socket;
 
 const SocketService = () => {
