@@ -102,13 +102,13 @@ def start():
     from vk.vk import start_vk
     vk = Thread(target=start_vk)
     vk.start()
-    #
+
     # from mail.mail import start_mail
     #
     # mail = Thread(target=start_mail)
     # mail.start()
 
-    main()
+    # main()
     # loop = asyncio.get_event_loop()
     # loop.run_until_complete(main())
 

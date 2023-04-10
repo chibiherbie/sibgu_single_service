@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'channels'
     'rest_framework',
     'user_control',
     'message_control',
@@ -85,6 +87,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'singlechat.wsgi.application'
+
+ASGI_APPLICATION = 'singlechat.asgi.application'
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_HEADERS = (
