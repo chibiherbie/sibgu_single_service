@@ -15,6 +15,7 @@ services:
       - mysibsau
     environment:
       - SOCKET_SERVER=http://91.216.164.35:2086
+      - MESSENGERS_SERVER=http://91.216.164.35:5000
 #  redis:
 #    restart: always
 #    image: redis:6.2
