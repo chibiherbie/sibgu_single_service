@@ -54,53 +54,64 @@
   height: 61px;
   margin-bottom: 5px;
   align-items: center;
+  padding-left: 5px;
+  padding-right: 5px;
+  justify-content: space-between;
 
   .imag-user {
-    margin-left: 10px;
     width: 54px;
     height: 54px;
     overflow: hidden;
     border-radius: 27px;
 
     img {
-      height: 100%;
-      width: 100%;
+      height: 54px;
+      width: 54px;
       object-fit: cover;
     }
   }
 
   .info{
+    width: 60%;
+    margin-left: 5%;
+    font-size: 14px;
 
-    .firststr{
-      margin-left: 35%;
-      margin-bottom: 15%;
-      margin-top: 15%;
-      font-size: 14px;
+
+    .firststr {
+      margin: 0;
     }
+
     .secondstr{
-      margin-left: 35%;
-      margin-bottom: 5%;
-      margin-top: 15%;
-      font-size: 14px;
       color: rgba(#ABABAB, 0.65);
+      margin: 0;
+      padding-top: 5%;
     }
   }
 
   .social-network{
-    margin-left: 20%;
-    p{
+    width: 10%;
+
+    p {
       font-size: 12px;
+
      }
  }
+
   .unread-user{
-    margin-left: 10%;
-    img{
-      width:10px;
+    width: 15px;
+
+    img {
+      width: 10px;
     }
   }
 }
 
 .user:hover {
+  background-color: #BE8580;
+  border-radius: 10px;
+}
+
+.user:active {
   background-color: #BE8580;
   border-radius: 10px;
 }
@@ -119,6 +130,7 @@
   display: flex;
   flex-direction: column;
   width: 20%;
+  min-width: 280px;
   height: 100%;
   background-color: #282828;
   // background-color: $thirdColor;
@@ -150,7 +162,7 @@
   display: none;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 840px) {
   .mobile{
     display: block;
   }

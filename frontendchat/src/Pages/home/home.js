@@ -1,4 +1,4 @@
-import React, {useState, useContext, useEffect} from "react";
+    import React, {useState, useContext, useEffect} from "react";
 import iconMenu from "../../assets/iconMenu.svg"
 import close from "../../assets/close.svg"
 import { ProfileModal } from "./homeComponents";

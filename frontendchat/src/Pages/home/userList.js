@@ -154,7 +154,7 @@ export const User = (props) => {
                 <p class="secondstr">{props.message}</p>
             </div>
             <div className="social-network">
-                <p></p>
+                <p>TG</p>
             </div>
             <div className="unread-user">
                 <img src={props.count > 0 && ellipse1}></img>
