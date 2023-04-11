@@ -86,7 +86,7 @@ function UsersList() {
         }
     }
 
-    const setActiveUser = (user_data) => {
+    const setActiveUser = (user_data, elem) => {
         localStorage.setItem(LastUserChat, JSON.stringify(user_data));
         dispatch({type: activeChatUserAction, payload: user_data});
     };
@@ -111,7 +111,7 @@ function UsersList() {
                         message={item.last_name}
                         count={item.message_count}
                         clickable
-                        onClick={() => setActiveUser(item)}
+                        onClick={() => setActiveUser(item, 'test')}
                     />))
             }
         </div>
@@ -154,7 +154,7 @@ export const User = (props) => {
                 <p class="secondstr">{props.message}</p>
             </div>
             <div className="social-network">
-                <p>TG</p>
+                <p></p>
             </div>
             <div className="unread-user">
                 <img src={props.count > 0 && ellipse1}></img>

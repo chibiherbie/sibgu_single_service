@@ -251,7 +251,7 @@
     max-width: 600px;
     padding: 10px;
     background-color: $thirdColor;
-    margin-bottom: 15px;
+    margin-top: 15px;
     border-radius: 10px;
     font-size: 14px;
     display: flex;
@@ -276,6 +276,12 @@
       background-color: $secondaryColor;
     }
   }
+}
+
+.sender-who {
+  margin-top: 5px;
+  justify-content: flex-end;
+  font-size: 14px;
 }
 
 // ---/message---

@@ -89,6 +89,7 @@ const Home = (props) => {
                                     setDropdown(!dropdown);
                                 closeSideBar();}
                                 }>Аккаунт</p>
+                                <p>FAQ</p>
                                 <p className="logout" onClick={() => logout(props)}>Выйти</p>
                             </div>
                         </div>

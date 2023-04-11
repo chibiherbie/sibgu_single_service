@@ -187,6 +187,7 @@ function Chat(props) {
                                 key={key}
                                 message={item.message}
                                 time={item.created_at ? moment(item.created_at).format("YYYY-MM-DD hh:mm a") : ""}
+                                senderName={item.sender.first_name}
                             />
 
                         ))
@@ -209,15 +210,20 @@ export default Chat
 
 
 export const MessageBubble = (props) => {
+    console.log('MESSGE')
     return (
+    <>
+    <div className={`chatbubbleCon ${props.bubbleType}`} >
+        <div className="chatbubble">
+            <p dangerouslySetInnerHTML={{ __html: props.message }}></p>
+            {/*<p>{props.message}</p>*/}
+            <div className="time">{props.time}</div>
+        </div>
 
-    <div className={`chatbubbleCon ${props.bubbleType}`}>
-      <div className="chatbubble">
-        <p dangerouslySetInnerHTML={{ __html: props.message }}></p>
-        {/*<p>{props.message}</p>*/}
-        <div className="time">{props.time}</div>
-      </div>
     </div>
+    <div className="sender-who flex clickable">
+        {props.bubbleType === "sender" ? `${props.senderName}` : ""}
+    </div></>
   );
 };
 
