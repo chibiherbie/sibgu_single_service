@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'rest_framework',
     'user_control',
     'message_control',
@@ -162,3 +163,4 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 SOCKET_SERVER = config("SOCKET_SERVER")
+MESSENGERS_SERVER = config("MESSENGERS_SERVER")

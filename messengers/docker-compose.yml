@@ -3,19 +3,15 @@ version: "3"
 services:
   api:
     build: .
-    command: bash -c "python manage.py runserver 0.0.0.0:8000"
-    container_name: singlechat_service_backend
+    command: bash -c "python manage_data.py"
+    container_name: singlechat_service_messengers
     restart: unless-stopped
-    volumes:
-      - .:/singlechat
-    ports:
-      - "80:80"
     networks:
       - default
       - mysibsau
     environment:
       - SOCKET_SERVER=http://91.216.164.35:2086
-      - MESSENGERS_SERVER=http://91.216.164.35:5000
+      - BACKEND_SERVER=http://91.216.164.35:8000
 
 networks:
   mysibsau:

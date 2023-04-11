@@ -9,7 +9,6 @@ import "./style.scss"
 ReactDom.render(
     <StoreProvider>
         <Router />
-        {/* Socket service as React Component??? */}
         <SocketService />
     </StoreProvider>,
     document.getElementById("root")

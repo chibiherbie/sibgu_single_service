@@ -30,7 +30,8 @@ const SocketService = () => {
 
 export default SocketService
 
-const sendSocket = data => {
+export const sendSocket = data => {
+    console.log('Сокеты')
     socket.emit("command", {
         type: data.type,
         id: data.id,
@@ -41,4 +42,5 @@ const sendSocket = data => {
 export const sendTestSocket = data => {
     socket.set( 'origins', '*' )
     socket.emit("command", data);
+    console.log('sendTestSocket -', data)
 };

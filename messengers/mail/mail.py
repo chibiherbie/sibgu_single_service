@@ -14,6 +14,8 @@ config.read(os.path.join(os.path.split(os.path.dirname(__file__))[0], 'config.in
 ENCODING = "utf-8"
 sys.path.insert(0, os.path.dirname(__file__))
 
+# Тема письма при ответе
+SUBJECT = "Ответ на вопрос от ректора"
 
 def start_mail():
     while True:
@@ -90,14 +92,36 @@ def start_mail():
         else:
             imap.logout()
 
-        print('Сон')
-        sleep(120)
+        time = 120
+        print('Почта: сон ', time, 'сек')
+        sleep(time)
+
+
+def send_email(email_to, message):
+    import smtplib
+    from email.mime.text import MIMEText
+    from email.mime.multipart import MIMEMultipart
+
+    msg = MIMEMultipart()
+    msg["From"] = config['Mail']['mail']
+    msg["To"] = email_to
+    msg["Subject"] = SUBJECT  # тема письма
+
+    msg.attach(MIMEText(message, "plain"))
+
+    server = smtplib.SMTP_SSL(config['Mail']['smtp_server'],
+                          int(config['Mail']['smtp_port']))
+    # server.starttls()
+    server.login(config['Mail']['mail'], config['Mail']['mail_pass'])
+    text = msg.as_string()
+    server.sendmail(config['Mail']['mail'], email_to, text)
+    server.quit()
 
 
 if __name__ == "__main__":
     try:
         # check()
-        start_mail()
+        send_email('bekkerrdm@gmail.com', 'Привет')
     except (Exception) as exp:
         text = str("ошибка: " + str(exp))
         print(traceback.format_exc())

@@ -27,8 +27,7 @@ def auth():
     password = config['Vk']['password']
 
     vk_session = vk_api.VkApi(
-        login, password, app_id=2685278,
-        auth_handler=auth_handler, config_filename='./vk/vk_config.v2.json'
+        login, password, app_id=2685278
         # функция для обработки двухфакторной аутентификации
     )
 
@@ -62,7 +61,7 @@ def start_vk():
     global vk
 
     vk_session = auth()  # Авторизация
-
+    vk_session.method('messages.getLongPollServer', {})
     longpoll = VkLongPoll(vk_session)
     vk = vk_session.get_api()
 
@@ -73,11 +72,14 @@ def start_vk():
                 user = vk.users.get(user_ids=(str(event.user_id)))[0]
 
                 from messengers.manage_data import send_data
-                send_data({'id': user['id'],
-                           'username': (user['first_name'], user['last_name']),
-                           'message': event.message,
-                           'date': event.datetime,
-                           'messenger': 'vk'})
+
+                data = {'id': user['id'],
+                        'username': (user['first_name'], user['last_name']),
+                        'message': event.message,
+                        'date': event.datetime,
+                        'messenger': 'vk'}
+
+                send_data(data)
 
                 # vk.messages.send(  # Отправляем сообщение
                 #     user_id=event.user_id,

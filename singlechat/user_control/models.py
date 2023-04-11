@@ -37,7 +37,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_staff = models.BooleanField(default=False, verbose_name="Доверенное лицо")
-    is_superuser = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False, verbose_name="Админ")
     is_active = models.BooleanField(default=True)
     is_online = models.DateTimeField(default=timezone.now)
 

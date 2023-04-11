@@ -16,7 +16,7 @@ username = config['Telegram']['username']
 
 # proxy = (proxy_server, proxy_port, proxy_key)
 client = TelegramClient(username, api_id, api_hash)
-loop = asyncio.get_event_loop()
+# loop = asyncio.get_event_loop()
 # client.start()
 
 
@@ -37,13 +37,14 @@ async def normal_handler(event):
 
     from messengers.manage_data import send_data
     loop2 = asyncio.new_event_loop()
-    loop2.run_in_executor(send_data({'id': sender.id,
-                                     'username': sender.username,
-                                     'message': event.message.message,
-                                     'date': event.message.date,
-                                     'messenger': 'telegram'}))
 
-    print('123')
+    data = {'id': sender.id,
+            'username': sender.username,
+            'message': event.message.message,
+            'date': event.message.date,
+            'messenger': 'telegram'}
+
+    loop2.run_in_executor(send_data(data))
 
 
 async def answer_message(user_id, message):
