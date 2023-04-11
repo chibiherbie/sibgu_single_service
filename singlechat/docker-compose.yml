@@ -9,7 +9,7 @@ services:
     volumes:
       - .:/singlechat
     ports:
-      - "80:80"
+      - "8000:8000"
     networks:
       - default
       - mysibsau
