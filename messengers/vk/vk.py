@@ -79,7 +79,6 @@ def start_vk():
                         'date': event.datetime,
                         'messenger': 'vk'}
 
-                print(data)
                 send_data(data)
 
                 # vk.messages.send(  # Отправляем сообщение

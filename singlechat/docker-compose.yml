@@ -15,13 +15,13 @@ services:
       - mysibsau
     environment:
       - SOCKET_SERVER=http://91.216.164.35:2086
-  redis:
-    restart: always
-    image: redis:6.2
-    ports:
-      - "6379:6379"
-    volumes:
-      - redisdata:/data
+#  redis:
+#    restart: always
+#    image: redis:6.2
+#    ports:
+#      - "6379:6379"
+#    volumes:
+#      - redisdata:/data
 
 
 
@@ -29,5 +29,5 @@ networks:
   mysibsau:
     external: true
 
-volumes:
-  redisdata:
+#volumes:
+#  redisdata:

@@ -44,8 +44,7 @@ async def normal_handler(event):
             'date': event.message.date,
             'messenger': 'telegram'}
 
-    print(data)
-    # loop2.run_in_executor(send_data(data))
+    loop2.run_in_executor(send_data(data))
 
 
 async def answer_message(user_id, message):

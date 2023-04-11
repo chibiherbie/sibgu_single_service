@@ -3,7 +3,7 @@ import openSocket from "socket.io-client"
 import {store} from "./stateManagment/store";
 import {activeChatUserAction} from "./stateManagment/actions";
 
-const SOCKET_URL = "http://127.0.0.1:9000/";
+const SOCKET_URL = "http://127.0.0.1:9000";
 let socket;
 
 const SocketService = () => {
@@ -30,7 +30,8 @@ const SocketService = () => {
 
 export default SocketService
 
-const sendSocket = data => {
+export const sendSocket = data => {
+    console.log('Сокеты')
     socket.emit("command", {
         type: data.type,
         id: data.id,
@@ -41,4 +42,5 @@ const sendSocket = data => {
 export const sendTestSocket = data => {
     socket.set( 'origins', '*' )
     socket.emit("command", data);
+    console.log('sendTestSocket -', data)
 };

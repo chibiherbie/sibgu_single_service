@@ -10,6 +10,7 @@ import moment from "moment";
 import {activeChatAction, triggerRefreshUserListAction} from "../../stateManagment/actions";
 import {store} from "../../stateManagment/store";
 import {ProfileModal} from "./homeComponents";
+import {sendSocket} from "../../socketService";
 
 
 let goneNext = false;
@@ -33,6 +34,8 @@ function Chat(props) {
             url: MESSAGE_URL + `?user_id=${props.activeUser.user.id}&page${nextPage}`,
             token,
         }).catch(e => console.log(errorHandler(e)));
+
+        console.log(result)
 
         if (result) {
             if (append) {
@@ -113,9 +116,13 @@ function Chat(props) {
             token, data
         }).catch(e => console.log(errorHandler(e)));
 
+        console.log('СОобщение тут')
+
         if (result) {
             messages[lastIndex] = result.data;
             setMessages(messages);
+            console.log(result.data)
+            sendSocket(result.data);
         }
     };
 

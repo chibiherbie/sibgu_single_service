@@ -19,6 +19,8 @@ receiver_id = 1
 
 
 def send_data(data):
+    print(data)
+
     bearer = login(data)
 
     response = requests.get(HOST + ID_USER, headers=bearer)
@@ -42,6 +44,9 @@ def answer(data):
         elif data['messenger'] == 'vk':
             from vk.vk import send_message
             send_message(data['user_id'], data['message'])
+        elif data['messenger'] == 'email':
+            from mail.mail import send_email
+            send_email(data['user_id'], data['message'])
     except Exception as e:
         print('Ошибка')
         print(e)
@@ -103,10 +108,10 @@ def start():
     vk = Thread(target=start_vk)
     vk.start()
 
-    # from mail.mail import start_mail
-    #
-    # mail = Thread(target=start_mail)
-    # mail.start()
+    from mail.mail import start_mail
+
+    mail = Thread(target=start_mail)
+    mail.start()
 
     # main()
     # loop = asyncio.get_event_loop()
