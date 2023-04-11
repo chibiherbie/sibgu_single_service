@@ -2,20 +2,10 @@ import asyncio
 import configparser
 import json
 import os
-
 from telethon.sync import TelegramClient, events
 
-# Считываем учетные данные
-config = configparser.ConfigParser()
-config.read(os.path.join(os.path.split(os.path.dirname(__file__))[0], 'config.ini'))
-
-# Присваиваем значения внутренним переменным
-api_id = config['Telegram']['api_id']
-api_hash = config['Telegram']['api_hash']
-username = config['Telegram']['username']
-
 # proxy = (proxy_server, proxy_port, proxy_key)
-client = TelegramClient(username, api_id, api_hash)
+client = TelegramClient
 # loop = asyncio.get_event_loop()
 # client.start()
 
@@ -61,7 +51,20 @@ async def answer_message(user_id, message):
 
 # Запуск
 def main():
+    global client
     # loop = asyncio.new_event_loop()
+
+    # Считываем учетные данные
+    config = configparser.ConfigParser()
+    config.read(os.path.join(os.path.split(os.path.dirname(__file__))[0], 'config.ini'))
+
+    # Присваиваем значения внутренним переменным
+    api_id = config['Telegram']['api_id']
+    api_hash = config['Telegram']['api_hash']
+    username = config['Telegram']['username']
+
+    client = TelegramClient(username, api_id, api_hash)
+
     print('START TG')
     client.connect()
     client.loop.run_forever()

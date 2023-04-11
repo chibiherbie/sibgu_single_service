@@ -7,6 +7,11 @@ import asyncio
 import traceback
 from time import sleep
 
+import sys
+sys.path.append("./../manage_data.py")
+from manage_data import send_data
+
+
 # Считываем учетные данные
 config = configparser.ConfigParser()
 config.read(os.path.join(os.path.split(os.path.dirname(__file__))[0], 'config.ini'))
@@ -17,7 +22,9 @@ sys.path.insert(0, os.path.dirname(__file__))
 # Тема письма при ответе
 SUBJECT = "Ответ на вопрос от ректора"
 
+
 def start_mail():
+    print('START MAIL')
     while True:
         import utils
 
@@ -69,7 +76,6 @@ def start_mail():
                     if len(post_text) > 4000:
                         post_text = post_text[:4000]
 
-                    from messengers.manage_data import send_data
                     try:
                         loop2 = asyncio.new_event_loop()
                         loop2.run_in_executor(send_data({'id': msg_email,
