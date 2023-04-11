@@ -239,6 +239,12 @@
       color: rgba(#ABABAB, 0.65);
     }
   }
+
+  .edit-chat {
+    margin-left: auto;
+    padding-right: 10%;
+  }
+
 }
 
 
@@ -281,7 +287,7 @@
 .sender-who {
   margin-top: 5px;
   justify-content: flex-end;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 // ---/message---

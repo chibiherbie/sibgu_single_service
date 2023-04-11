@@ -165,12 +165,15 @@ function Chat(props) {
                 <div className="mobile">
                     <img src={menu} className='hamburger-lines' alt="" onClick={props.toggleSideBar}/>
                 </div>
-                <div className="chat-photo" onClick={() => setShowProfileModal(true)}>
+                <div className="chat-photo clickable" onClick={() => setShowProfileModal(true)}>
                     <img src={ellipse2}></img>
                 </div>
                 <div className="info-chat">
                     <p className="firststr">{props.activeUser.first_name}</p>
                     <p className="secondstr">{props.activeUser.last_name}</p>
+                </div>
+                <div className="edit-chat">
+                    <p className="clickable">sibgu</p>
                 </div>
             </div>
 
@@ -210,7 +213,6 @@ export default Chat
 
 
 export const MessageBubble = (props) => {
-    console.log('MESSGE')
     return (
     <>
     <div className={`chatbubbleCon ${props.bubbleType}`} >
@@ -226,4 +228,3 @@ export const MessageBubble = (props) => {
     </div></>
   );
 };
-
