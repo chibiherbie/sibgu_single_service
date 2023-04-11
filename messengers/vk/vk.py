@@ -5,6 +5,10 @@ import requests
 import configparser
 import random
 
+import sys
+sys.path.append("./../manage_data.py")
+from manage_data import send_data
+
 from vk_api.longpoll import VkLongPoll, VkEventType
 
 
@@ -70,8 +74,6 @@ def start_vk():
             # Слушаем longpoll, если пришло сообщение то:
             if event.from_user:  # Если написали в ЛС
                 user = vk.users.get(user_ids=(str(event.user_id)))[0]
-
-                from messengers.manage_data import send_data
 
                 data = {'id': user['id'],
                         'username': (user['first_name'], user['last_name']),

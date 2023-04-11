@@ -4,14 +4,15 @@ import asyncio
 from threading import Thread
 import os
 
+import sys
+sys.path.append(".")
+
 BACKEND_SERVER = os.environ.get('BACKEND_SERVER', 'http://127.0.0.1:8000/')
 LOGIN_URL = "user/login"
 REGISTER_URL = "user/register"
 PROFILE_URL = 'user/profile'
 ID_USER = 'user/me'
 MESSAGE_URL = "/message/message"
-
-from telegram.telegram import main, answer_message
 
 
 # ВРЕМЕННО
@@ -39,6 +40,7 @@ def send_data(data):
 def answer(data):
     try:
         if data['messenger'] == 'telegram':
+            from telegram.telegram import answer_message
             loop = asyncio.new_event_loop()
             loop.run_until_complete(answer_message(data['name'], data['message']))
         elif data['messenger'] == 'vk':
@@ -109,11 +111,12 @@ def start():
     vk.start()
 
     from mail.mail import start_mail
-
     mail = Thread(target=start_mail)
     mail.start()
 
+    # from telegram.telegram import main
     # main()
+
     # loop = asyncio.get_event_loop()
     # loop.run_until_complete(main())
 
