@@ -55,7 +55,7 @@ function UsersList() {
                     delete _users.data.results[i]
             }
             _users.data.count = _users.data.results.length
-            console.log(_users)
+            console.log('_USERS', _users)
             //
 
             if (_users.data.next){

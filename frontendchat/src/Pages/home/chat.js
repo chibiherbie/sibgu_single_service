@@ -35,7 +35,7 @@ function Chat(props) {
             token,
         }).catch(e => console.log(errorHandler(e)));
 
-        console.log(result)
+        console.log('getMessages', result)
 
         if (result) {
             if (append) {
@@ -48,10 +48,11 @@ function Chat(props) {
 
             result.data.results.map(item => {
                 if (item.is_read) return null
-                if (item.receiver.user.id === props.loggedUser.user.id){
-                    updateMessage(item.id);
-                }
-               return null
+                // if (item.receiver.user.id === props.loggedUser.user.id){
+                //     updateMessage(item.id);
+                // }
+                updateMessage(item.id);
+                return null
             });
 
             if (result.data.next) {
