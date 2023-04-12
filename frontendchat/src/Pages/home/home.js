@@ -26,7 +26,6 @@ const Home = (props) => {
 
 
     useEffect(() => {
-        console.log('123')
         if (userDetail !== userdetail) {
             setUserDetail(userDetail);
             if (!userDetail.first_name) {

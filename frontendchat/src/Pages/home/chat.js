@@ -35,7 +35,7 @@ function Chat(props) {
             token,
         }).catch(e => console.log(errorHandler(e)));
 
-        console.log('getMessages', result)
+        // console.log('getMessages', result)
 
         if (result) {
             if (append) {
@@ -117,12 +117,12 @@ function Chat(props) {
             token, data
         }).catch(e => console.log(errorHandler(e)));
 
-        console.log('СОобщение тут')
+        // console.log('СОобщение тут')
 
         if (result) {
             messages[lastIndex] = result.data;
             setMessages(messages);
-            console.log(result.data)
+            // console.log(result.data)
             sendSocket(result.data);
         }
     };
