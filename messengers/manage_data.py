@@ -114,8 +114,8 @@ def start():
     mail = Thread(target=start_mail)
     mail.start()
 
-    # from telegram.telegram import main
-    # main()
+    # from telegram.telegram import start_tg
+    # start_tg()
 
     # loop = asyncio.get_event_loop()
     # loop.run_until_complete(main())

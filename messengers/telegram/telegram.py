@@ -4,8 +4,22 @@ import json
 import os
 from telethon.sync import TelegramClient, events
 
+import sys
+sys.path.append("./../manage_data.py")
+from manage_data import send_data
+
+# Считываем учетные данные
+config = configparser.ConfigParser()
+config.read(os.path.join(os.path.split(os.path.dirname(__file__))[0], 'config.ini'))
+
+# Присваиваем значения внутренним переменным
+api_id = config['Telegram']['api_id']
+api_hash = config['Telegram']['api_hash']
+username = config['Telegram']['username']
+phone = config['Vk']['login']
+
 # proxy = (proxy_server, proxy_port, proxy_key)
-client = TelegramClient
+client = TelegramClient(username, api_id, api_hash)
 # loop = asyncio.get_event_loop()
 # client.start()
 
@@ -25,7 +39,6 @@ async def normal_handler(event):
     #     return
     # ---------
 
-    from messengers.manage_data import send_data
     loop2 = asyncio.new_event_loop()
 
     data = {'id': sender.id,
@@ -34,7 +47,8 @@ async def normal_handler(event):
             'date': event.message.date,
             'messenger': 'telegram'}
 
-    loop2.run_in_executor(send_data(data))
+    loop2.run_until_complete(send_data(data))
+    # loop2.run_in_executor(send_data(data))
 
 
 async def answer_message(user_id, message):
@@ -50,27 +64,21 @@ async def answer_message(user_id, message):
 
 
 # Запуск
-def main():
+def start_tg():
     global client
     # loop = asyncio.new_event_loop()
 
-    # Считываем учетные данные
-    config = configparser.ConfigParser()
-    config.read(os.path.join(os.path.split(os.path.dirname(__file__))[0], 'config.ini'))
-
-    # Присваиваем значения внутренним переменным
-    api_id = config['Telegram']['api_id']
-    api_hash = config['Telegram']['api_hash']
-    username = config['Telegram']['username']
-
-    client = TelegramClient(username, api_id, api_hash)
-
     print('START TG')
-    client.connect()
-    client.loop.run_forever()
+    client.start(phone)
+    client.start()
+    # client.loop.run_forever()
+
+    with client:
+        client.add_event_handler(normal_handler)
+        client.run_until_disconnected()
 
     # client.add_update_handler(тщ)
 
 
 if __name__ == '__main__':
-    main()
+    start_tg()
