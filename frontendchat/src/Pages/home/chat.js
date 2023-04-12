@@ -35,7 +35,7 @@ function Chat(props) {
             token,
         }).catch(e => console.log(errorHandler(e)));
 
-        console.log(result)
+        // console.log('getMessages', result)
 
         if (result) {
             if (append) {
@@ -48,10 +48,11 @@ function Chat(props) {
 
             result.data.results.map(item => {
                 if (item.is_read) return null
-                if (item.receiver.user.id === props.loggedUser.user.id){
-                    updateMessage(item.id);
-                }
-               return null
+                // if (item.receiver.user.id === props.loggedUser.user.id){
+                //     updateMessage(item.id);
+                // }
+                updateMessage(item.id);
+                return null
             });
 
             if (result.data.next) {
@@ -116,12 +117,12 @@ function Chat(props) {
             token, data
         }).catch(e => console.log(errorHandler(e)));
 
-        console.log('СОобщение тут')
+        // console.log('СОобщение тут')
 
         if (result) {
             messages[lastIndex] = result.data;
             setMessages(messages);
-            console.log(result.data)
+            // console.log(result.data)
             sendSocket(result.data);
         }
     };
@@ -165,12 +166,15 @@ function Chat(props) {
                 <div className="mobile">
                     <img src={menu} className='hamburger-lines' alt="" onClick={props.toggleSideBar}/>
                 </div>
-                <div className="chat-photo" onClick={() => setShowProfileModal(true)}>
+                <div className="chat-photo clickable" onClick={() => setShowProfileModal(true)}>
                     <img src={ellipse2}></img>
                 </div>
                 <div className="info-chat">
                     <p className="firststr">{props.activeUser.first_name}</p>
                     <p className="secondstr">{props.activeUser.last_name}</p>
+                </div>
+                <div className="edit-chat">
+                    <p className="clickable">sibgu</p>
                 </div>
             </div>
 
@@ -187,6 +191,7 @@ function Chat(props) {
                                 key={key}
                                 message={item.message}
                                 time={item.created_at ? moment(item.created_at).format("YYYY-MM-DD hh:mm a") : ""}
+                                senderName={item.sender.first_name}
                             />
 
                         ))
@@ -210,14 +215,17 @@ export default Chat
 
 export const MessageBubble = (props) => {
     return (
+    <>
+    <div className={`chatbubbleCon ${props.bubbleType}`} >
+        <div className="chatbubble">
+            <p dangerouslySetInnerHTML={{ __html: props.message }}></p>
+            {/*<p>{props.message}</p>*/}
+            <div className="time">{props.time}</div>
+        </div>
 
-    <div className={`chatbubbleCon ${props.bubbleType}`}>
-      <div className="chatbubble">
-        <p dangerouslySetInnerHTML={{ __html: props.message }}></p>
-        {/*<p>{props.message}</p>*/}
-        <div className="time">{props.time}</div>
-      </div>
     </div>
+    <div className="sender-who flex clickable">
+        {props.bubbleType === "sender" ? `${props.senderName}` : ""}
+    </div></>
   );
 };
-

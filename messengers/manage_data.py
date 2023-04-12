@@ -8,10 +8,10 @@ import sys
 sys.path.append(".")
 
 BACKEND_SERVER = os.environ.get('BACKEND_SERVER', 'http://127.0.0.1:8000/')
-LOGIN_URL = "user/login"
-REGISTER_URL = "user/register"
-PROFILE_URL = 'user/profile'
-ID_USER = 'user/me'
+LOGIN_URL = "/user/login"
+REGISTER_URL = "/user/register"
+PROFILE_URL = '/user/profile'
+ID_USER = '/user/me'
 MESSAGE_URL = "/message/message"
 
 
@@ -114,8 +114,8 @@ def start():
     mail = Thread(target=start_mail)
     mail.start()
 
-    # from telegram.telegram import main
-    # main()
+    # from telegram.telegram import start_tg
+    # start_tg()
 
     # loop = asyncio.get_event_loop()
     # loop.run_until_complete(main())

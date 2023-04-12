@@ -100,6 +100,7 @@ class MessageView(ModelViewSet):
         except:
             pass
 
+        print('OARCHCHCHCH')
         attachments = request.data.pop("attachments", None)
         instance = self.get_object()
 

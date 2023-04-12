@@ -93,6 +93,7 @@
             span {
               font-size: 13px;
               color: rgba(white, 0.5);
+              margin-bottom: 5px;
             }
 
             input,
@@ -225,22 +226,25 @@
   }
 
   .info-chat{
-
+    margin-left: 15px;
     .firststr{
-      margin-left: 50%;
-      margin-bottom: 15%;
-      margin-top: 15%;
+      margin: 0;
       font-size: 12px;
     }
 
     .secondstr{
-      margin-left: 50%;
-      margin-bottom: 5%;
-      margin-top: 15%;
+      margin: 0;
+      padding-top: 5px;
       font-size: 12px;
       color: rgba(#ABABAB, 0.65);
     }
   }
+
+  .edit-chat {
+    margin-left: auto;
+    padding-right: 10%;
+  }
+
 }
 
 
@@ -253,7 +257,7 @@
     max-width: 600px;
     padding: 10px;
     background-color: $thirdColor;
-    margin-bottom: 15px;
+    margin-top: 15px;
     border-radius: 10px;
     font-size: 14px;
     display: flex;
@@ -278,6 +282,12 @@
       background-color: $secondaryColor;
     }
   }
+}
+
+.sender-who {
+  margin-top: 5px;
+  justify-content: flex-end;
+  font-size: 12px;
 }
 
 // ---/message---

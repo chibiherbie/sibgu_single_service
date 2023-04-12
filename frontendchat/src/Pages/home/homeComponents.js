@@ -80,7 +80,7 @@ export const ProfileModal = (props) => {
             </div>
             <div className="dataInput">
               <label>
-                <span>First name</span>
+                <span>Имя</span>
                 <input
                     name="first_name"
                     value={profileData.first_name}

@@ -1,4 +1,4 @@
-import React, {useState, useContext, useEffect} from "react";
+    import React, {useState, useContext, useEffect} from "react";
 import iconMenu from "../../assets/iconMenu.svg"
 import close from "../../assets/close.svg"
 import { ProfileModal } from "./homeComponents";
@@ -26,7 +26,6 @@ const Home = (props) => {
 
 
     useEffect(() => {
-        console.log('123')
         if (userDetail !== userdetail) {
             setUserDetail(userDetail);
             if (!userDetail.first_name) {
@@ -89,6 +88,7 @@ const Home = (props) => {
                                     setDropdown(!dropdown);
                                 closeSideBar();}
                                 }>Аккаунт</p>
+                                <p>FAQ</p>
                                 <p className="logout" onClick={() => logout(props)}>Выйти</p>
                             </div>
                         </div>

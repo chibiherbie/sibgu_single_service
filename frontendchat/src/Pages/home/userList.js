@@ -55,8 +55,7 @@ function UsersList() {
                     delete _users.data.results[i]
             }
             _users.data.count = _users.data.results.length
-            console.log(_users)
-            //
+            // console.log('_USERS', _users)
 
             if (_users.data.next){
                 setNextPage(nextPage+1)
@@ -86,7 +85,7 @@ function UsersList() {
         }
     }
 
-    const setActiveUser = (user_data) => {
+    const setActiveUser = (user_data, elem) => {
         localStorage.setItem(LastUserChat, JSON.stringify(user_data));
         dispatch({type: activeChatUserAction, payload: user_data});
     };
@@ -111,7 +110,7 @@ function UsersList() {
                         message={item.last_name}
                         count={item.message_count}
                         clickable
-                        onClick={() => setActiveUser(item)}
+                        onClick={() => setActiveUser(item, 'test')}
                     />))
             }
         </div>
