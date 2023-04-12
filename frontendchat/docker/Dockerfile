@@ -1,4 +1,5 @@
-FROM node:16-alpine as builder
+FROM node:19-alpine as builder
+RUN apk add python3 make g++
 WORKDIR /app
 COPY . .
 RUN npm install --development && npm run build

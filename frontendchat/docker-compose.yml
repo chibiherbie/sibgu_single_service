@@ -7,6 +7,10 @@ services:
       dockerfile: docker/Dockerfile
     container_name: singlechat_service_frontend
     restart: unless-stopped
+    volumes:
+      - ".:/app"
+    ports:
+      - "3000:80"
     networks:
       - mysibsau
       - default
@@ -14,7 +18,6 @@ services:
 networks:
   mysibsau:
     external: true
-
 
 #version: "3.8"
 #
