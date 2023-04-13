@@ -91,4 +91,3 @@ class Code(models.Model):
 
     class Meta:
         verbose_name_plural = "Коды для регистрации"
-

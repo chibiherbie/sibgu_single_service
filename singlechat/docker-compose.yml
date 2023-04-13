@@ -16,19 +16,23 @@ services:
     environment:
       - SOCKET_SERVER=http://91.216.164.35:2086
       - MESSENGERS_SERVER=http://91.216.164.35:5000
-#  redis:
-#    restart: always
-#    image: redis:6.2
-#    ports:
-#      - "6379:6379"
-#    volumes:
-#      - redisdata:/data
+      - MYSQL_ENGINE=django.db.backends.sqlite3
+      - MYSQL_DB=django_db
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=admin4321
+      - MYSQL_HOST=db
+      - MYSQL_PORT=5432
+    depends_on:
+      - db
+  db:
+    image: mysql:latest
+    container_name: singlechat_service_database
+    volumes:
+      - mysql_data:/var/lib/mysql
+    environment:
+      - MYSQL_DB=django_db
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=admin4321
 
-
-
-networks:
-  mysibsau:
-    external: true
-
-#volumes:
-#  redisdata:
+volumes:
+  mysql_data:

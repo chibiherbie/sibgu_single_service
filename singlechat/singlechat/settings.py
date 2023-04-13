@@ -106,12 +106,15 @@ CORS_ALLOW_METHODS = ('GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS')
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": os.environ.get("MYSQL_ENGINE", "django.db.backends.sqlite3"),
+        "NAME": os.environ.get("MYSQL_DB", os.path.join(BASE_DIR, "db.sqlite3")),
+        "USER": os.environ.get("MYSQL_USER", "user"),
+        "PASSWORD": os.environ.get("MYSQL_PASSWORD", "password"),
+        "HOST": os.environ.get("MYSQL_HOST", "localhost"),
+        "PORT": os.environ.get("MYSQL_PORT", "5432"),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
