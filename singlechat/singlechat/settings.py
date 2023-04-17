@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     'user_control',
     'message_control',
     'singlechat',
-    'corsheaders'
+    'corsheaders',
 ]
 
 MIDDLEWARE = [

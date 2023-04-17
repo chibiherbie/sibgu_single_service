@@ -1,14 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
-from message_control.models import GenericFileUpload
+# from message_control.models import GenericFileUpload
 from django.utils import timezone
 from django.utils.crypto import get_random_string
-from random import choice
 
 
 class CustomUserManager(BaseUserManager):
 
-    def _create_user(self, username, password, **extra_fields):
+    def create_user(self, username, password, **extra_fields):
         if not username:
             raise ValueError("Username field is required")
 
@@ -28,7 +27,7 @@ class CustomUserManager(BaseUserManager):
         if extra_fields.get("is_superuser") is not True:
             raise ValueError("Superuser must have is_superuser=True.")
 
-        return self._create_user(username, password, **extra_fields)
+        return self.create_user(username, password, **extra_fields)
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
@@ -48,16 +47,15 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         return self.username
 
     class Meta:
-        verbose_name_plural = "Пользователи"
-        ordering = ("created_at", )
+        ordering = ("created_at",)
 
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(CustomUser, related_name='user_profile', on_delete=models.CASCADE)
+    user = models.OneToOneField(CustomUser, related_name="user_profile", on_delete=models.CASCADE)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
-    profile_picture = models.ForeignKey(
-        GenericFileUpload, related_name="user_image", on_delete=models.SET_NULL, null=True)
+    # profile_picture = models.ForeignKey(
+    #     GenericFileUpload, related_name="user_image", on_delete=models.SET_NULL, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -65,7 +63,7 @@ class UserProfile(models.Model):
         return self.user.username
 
     class Meta:
-        ordering = ("created_at", )
+        ordering = ("created_at",)
 
 
 class Jwt(models.Model):
