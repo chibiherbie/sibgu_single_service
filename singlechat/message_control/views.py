@@ -80,7 +80,7 @@ class MessageView(ModelViewSet):
             # print(serializer.data['receiver'])
             if serializer.data['sender']['user']['is_staff']:
 
-                # last_name для определение из каого чата ВРЕМЕННО
+                # last_name для определение из какого чата ВРЕМЕННО
                 requests.post(f'{settings.MESSENGERS_SERVER}/api/message',
                               data={"messenger": serializer.data['receiver']['last_name'],
                                     "user_id": serializer.data['receiver']['user']['username'],

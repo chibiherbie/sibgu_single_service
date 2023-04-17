@@ -122,8 +122,8 @@ function Chat(props) {
         if (result) {
             messages[lastIndex] = result.data;
             setMessages(messages);
-            // console.log(result.data)
-            sendSocket(result.data);
+            // console.log(messages)
+            // sendSocket(result.data);
         }
     };
 
@@ -191,7 +191,7 @@ function Chat(props) {
                                 key={key}
                                 message={item.message}
                                 time={item.created_at ? moment(item.created_at).format("YYYY-MM-DD hh:mm a") : ""}
-                                senderName={item.sender.first_name}
+                                senderName={item.sender ? item.sender.first_name : ""}
                             />
 
                         ))
