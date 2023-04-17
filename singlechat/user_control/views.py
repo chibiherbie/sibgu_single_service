@@ -89,7 +89,7 @@ class RegisterView(APIView):
             except Exception:
                 raise ValueError("Данного кода регистрации не сущуствует")
 
-        CustomUser.objects._create_user(**serializer.validated_data)
+        CustomUser.objects.create_user(**serializer.validated_data)
 
         return Response({"success": "User created."}, status=201)
 
