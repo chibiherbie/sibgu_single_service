@@ -148,9 +148,12 @@ def send_attach(msg, msg_subj, repl):
 
 
 def post_construct(msg_subj, msg_from, msg_email, letter_text, attachments):
+    smile_letter = '\U0001F4E8'
+    smile_attachments = '\U0001F4CE'
+
     att_txt = "\n".join(attachments)
     postparts = [
-        "\U0001F4E8 <b>",
+        f"<b>",
         str(msg_subj),
         "</b>\n\n",
         "<pre>",
@@ -160,7 +163,7 @@ def post_construct(msg_subj, msg_from, msg_email, letter_text, attachments):
         "</pre>\n\n",
         letter_text,
         "\n\n",
-        "\U0001F4CE<i> вложения: </i>",
+        f"<i> вложения: </i>\n",
         str(len(attachments)),
         "\n\n",
         att_txt,

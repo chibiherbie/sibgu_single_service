@@ -99,7 +99,7 @@ def start_mail():
             imap.logout()
 
         time = 120
-        print('Почта: сон ', time, 'сек')
+        # print('Почта: сон ', time, 'сек')
         sleep(time)
 
 
