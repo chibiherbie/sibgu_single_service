@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import CustomUser, Jwt, Code
+from .models import CustomUser, Jwt, Code, UserProfile
 
 
 class CustomUserAdmin(admin.ModelAdmin):
@@ -16,7 +16,7 @@ class CustomUserAdmin(admin.ModelAdmin):
     username.short_description = 'Имя пользователя'
 
 
-admin.site.register((Jwt, Code))
+admin.site.register((Jwt, Code, UserProfile))
 admin.site.register(CustomUser, CustomUserAdmin)
 
 # admin.site.register()

@@ -163,6 +163,18 @@
   display: none;
 }
 
+@media screen and (max-width: 1050px) {
+    .messageZone {
+    width: 70%;
+  }
+
+  .interface {
+    width: 70%;
+  }
+
+}
+
+
 @media screen and (max-width: 840px) {
   .mobile{
     display: block;
@@ -196,5 +208,13 @@
     &.close {
       left: -350px;
     }
+  }
+
+  .messageZone {
+    width: 90%;
+  }
+
+  .interface {
+    width: 90%;
   }
 }

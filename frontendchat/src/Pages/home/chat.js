@@ -199,7 +199,7 @@ function Chat(props) {
             </div>
 
             <form onSubmit={submitMessage} className="flex interface">
-                <input placeholder="Сообщение"
+                <textarea placeholder="Сообщение"
                        value={message}
                        onChange={ e => setMessage(e.target.value)}/>
                 <button type="submit">
@@ -218,8 +218,8 @@ export const MessageBubble = (props) => {
     <>
     <div className={`chatbubbleCon ${props.bubbleType}`} >
         <div className="chatbubble">
-            <p dangerouslySetInnerHTML={{ __html: props.message }}></p>
-            {/*<p>{props.message}</p>*/}
+            {/*<pre dangerouslySetInnerHTML={{ __html: props.message }}></pre>*/}
+            <pre>{props.message}</pre>
             <div className="time">{props.time}</div>
         </div>
 
