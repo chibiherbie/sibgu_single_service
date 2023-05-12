@@ -148,12 +148,12 @@ class UserProfileView(ModelViewSet):
             query = self.get_query(keyword, search_fields)
             try:
                 return self.queryset.filter(query).filter(**data).\
-                    exclude(Q(user_id=self.request.user.id) or Q(user__is_superuser=True)).distinct()
+                    exclude(Q(user_id=self.request.user.id) and Q(user__is_staff=True)).distinct()
             except Exception as e:
                 raise Exception(e)
 
         return self.queryset.filter(**data).\
-            exclude(Q(user_id=self.request.user.id) or Q(user__is_superuser=True)).distinct()
+            exclude(Q(user_id=self.request.user.id) and Q(user__is_staff=True)).distinct()
 
     @staticmethod
     def get_query(query_string, search_fields):

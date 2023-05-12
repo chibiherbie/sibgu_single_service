@@ -49,11 +49,11 @@ function UsersList() {
         if (_users) {
 
             // Удаляем доверенных лиц
-            for (var i = 0; i < _users.data.results.length; i++)
-            {
-                if (_users.data.results[i].user.is_staff)
-                    delete _users.data.results[i]
-            }
+            // for (var i = 0; i < _users.data.results.length; i++)
+            // {
+            //     if (_users.data.results[i].user.is_staff)
+            //         delete _users.data.results[i]
+            // }
             _users.data.count = _users.data.results.length
             // console.log('_USERS', _users)
 
