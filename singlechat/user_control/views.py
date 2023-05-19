@@ -144,7 +144,7 @@ class UserProfileView(ModelViewSet):
 
         # Сортируем сообщения
         users_qs = self.queryset.annotate(
-            last_message_sender=Max('user__message_receiver__created_at', 'user__message_sender__created_at')
+            last_message_sender=Max('user__message_sender__created_at')
         ).order_by('-last_message_sender')
 
         if keyword:
@@ -158,7 +158,7 @@ class UserProfileView(ModelViewSet):
             except Exception as e:
                 raise Exception(e)
 
-        return users_qs.filter(**data).\
+        return users_qs.filter(**data). \
             exclude(Q(user_id=self.request.user.id) and Q(user__is_staff=True)).distinct()
 
     @staticmethod
