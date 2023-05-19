@@ -218,8 +218,8 @@ export const MessageBubble = (props) => {
     <>
     <div className={`chatbubbleCon ${props.bubbleType}`} >
         <div className="chatbubble">
-            {/*<pre dangerouslySetInnerHTML={{ __html: props.message }}></pre>*/}
-            <pre>{props.message}</pre>
+            <pre dangerouslySetInnerHTML={{ __html: props.message }}></pre>
+            {/*<pre>{props.message}</pre>*/}
             <div className="time">{props.time}</div>
         </div>
 
