@@ -110,9 +110,10 @@ def start_vk():
                             # Слушаем longpoll, если пришло сообщение то:
                             if event.from_user:  # Если написали в ЛС
                                 user = vk.users.get(user_ids=(str(event.user_id)))[0]
+                                username = user['first_name'] + " " + user['last_name']
 
                                 data = {'id': user['id'],
-                                        'username': (user['first_name'], user['last_name']),
+                                        'username': username,
                                         'message': event.message,
                                         'date': event.datetime,
                                         'messenger': 'vk'}

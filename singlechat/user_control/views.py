@@ -12,7 +12,7 @@ from .authentication import Authentication
 from singlechat.custom_methods import IsAuthenticatedCustom
 from rest_framework.viewsets import ModelViewSet
 import re
-from django.db.models import Q
+from django.db.models import Q, Max
 
 
 def get_random(length):
@@ -68,7 +68,8 @@ class LoginView(APIView):
         refresh = get_refresh_token()
 
         Jwt.objects.create(
-            user_id=user.id, access=access.decode(), refresh=refresh.decode()  # user_id=user.id, access=access.decode(), refresh=refresh.decode()
+            user_id=user.id, access=access.decode(), refresh=refresh.decode()
+            # user_id=user.id, access=access.decode(), refresh=refresh.decode()
         )
 
         return Response({"access": access, "refresh": refresh})
@@ -128,7 +129,7 @@ class RefreshView(APIView):
 class UserProfileView(ModelViewSet):
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
-    permission_classes = (IsAuthenticatedCustom, )
+    permission_classes = (IsAuthenticatedCustom,)
 
     def get_queryset(self):
 
@@ -141,18 +142,23 @@ class UserProfileView(ModelViewSet):
 
         # self.request.method.lower() = "post"
 
+        # Сортируем сообщения
+        users_qs = self.queryset.annotate(
+            last_message_sender=Max('user__message_receiver__created_at', 'user__message_sender__created_at')
+        ).order_by('-last_message_sender')
+
         if keyword:
             search_fields = (
                 "user__username", "first_name", "last_name"
             )
             query = self.get_query(keyword, search_fields)
             try:
-                return self.queryset.filter(query).filter(**data).\
+                return users_qs.filter(query).filter(**data). \
                     exclude(Q(user_id=self.request.user.id) and Q(user__is_staff=True)).distinct()
             except Exception as e:
                 raise Exception(e)
 
-        return self.queryset.filter(**data).\
+        return users_qs.filter(**data).\
             exclude(Q(user_id=self.request.user.id) and Q(user__is_staff=True)).distinct()
 
     @staticmethod
@@ -174,12 +180,13 @@ class UserProfileView(ModelViewSet):
         return query
 
     @staticmethod
-    def normalize_query(query_string, findterms=re.compile(r'"([^"]+)"|(\S+)').findall, normspace=re.compile(r'\s{2,}').sub):
+    def normalize_query(query_string, findterms=re.compile(r'"([^"]+)"|(\S+)').findall,
+                        normspace=re.compile(r'\s{2,}').sub):
         return [normspace(' ', (t[0] or t[1]).strip()) for t in findterms(query_string)]
 
 
 class MeView(APIView):
-    permission_classes = (IsAuthenticatedCustom, )
+    permission_classes = (IsAuthenticatedCustom,)
     serializer_class = UserProfileSerializer
 
     def get(self, request):
@@ -196,7 +203,7 @@ class MeView(APIView):
 
 
 class LogoutView(APIView):
-    permission_classes = (IsAuthenticatedCustom, )
+    permission_classes = (IsAuthenticatedCustom,)
 
     def get(self, request):
         user_id = request.user.id
