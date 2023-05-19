@@ -102,28 +102,32 @@ def start_vk():
                         'messenger': 'vk'}
 
                 send_data(data)
-
-        for event in longpoll.listen():
+        while True:
             try:
-                if event.type == VkEventType.MESSAGE_NEW and event.to_me and event.text:
-                    # Слушаем longpoll, если пришло сообщение то:
-                    if event.from_user:  # Если написали в ЛС
-                        user = vk.users.get(user_ids=(str(event.user_id)))[0]
+                for event in longpoll.listen():
+                    try:
+                        if event.type == VkEventType.MESSAGE_NEW and event.to_me and event.text:
+                            # Слушаем longpoll, если пришло сообщение то:
+                            if event.from_user:  # Если написали в ЛС
+                                user = vk.users.get(user_ids=(str(event.user_id)))[0]
+                                username = user['first_name'] + " " + user['last_name']
 
-                        data = {'id': user['id'],
-                                'username': (user['first_name'], user['last_name']),
-                                'message': event.message,
-                                'date': event.datetime,
-                                'messenger': 'vk'}
+                                data = {'id': user['id'],
+                                        'username': username,
+                                        'message': event.message,
+                                        'date': event.datetime,
+                                        'messenger': 'vk'}
 
-                        send_data(data)
+                                send_data(data)
 
-                        # vk.messages.send(  # Отправляем сообщение
-                        #     user_id=event.user_id,
-                        #     message='Ваш текст'
-                        #
+                                # vk.messages.send(  # Отправляем сообщение
+                                #     user_id=event.user_id,
+                                #     message='Ваш текст'
+                                #
+                    except Exception as e:
+                        print('Ошибка vk:', e)
             except Exception as e:
-                print('Ошибка', e)
+                print("Переподключение")
 
     except Exception as e:
         print(e)
